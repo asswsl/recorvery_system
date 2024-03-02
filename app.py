@@ -1,0 +1,83 @@
+from flask import Flask, render_template, request, redirect, url_for, session
+import pymysql
+import re
+
+app = Flask(__name__)
+app.secret_key = 'ys124126'
+
+db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system", charset="utf8")
+
+
+@app.route('/')
+def index():
+    return render_template('login.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    mesage = ''
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        email = request.form['email']
+        password = request.form['password']
+        rol = request.form['rol']
+        depart = request.form['depart']
+        cursor = db.cursor()
+        cursor.execute('select * from user where email=%s and password=%s and rol=%s and depart=%s',
+                       (email, password, rol, depart))
+        user = cursor.fetchone()
+        if user:
+            session['loggedin'] = True
+            session['userid'] = user[0]
+            session['name'] = user[1]
+            session['email'] = user[2]
+            session['role'] = user[4]
+            session['depart'] = user[5]
+            mesage = 'logged in successfully'
+            return render_template('user.html', mesage=mesage)
+        else:
+            mesage = 'Please enter correct email / password !'
+    return render_template('login.html', mesage=mesage)
+
+
+# 注销功能
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('userid', None)
+    session.pop('email', None)
+    return redirect(url_for('login'))
+
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    mesage = ''
+    if request.method == 'POST' and 'name' in request.form and 'email' in request.form and 'password' in request.form:
+        username = request.form['name']
+        password = request.form['password']
+        email = request.form['email']
+        rol = request.form['rol']
+        depart = request.form['depart']
+        cursor = db.cursor()
+        cursor.execute('select * from user where email=%s and password=%s and rol=%s and depart=%s',
+                       (email, password, rol, depart))
+        account = cursor.fetchone()
+        if account:
+            mesage = '账户已存在 !'
+        #     检查是否符合邮箱格式
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            mesage = '邮箱格式错误!'
+        elif not username or not password or not email:
+            mesage = '请全部填写!'
+        else:
+            id = 2
+            id += 1
+            cursor.execute('insert into user values (%s,%s,%s,%s,%s,%s)', (id, username, email, password, rol, depart))
+            db.commit()
+            mesage = '注册成功!'
+    elif request.method == 'POST':
+        mesage = '请全部填写 !'
+    return render_template('register.html', mesage=mesage)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

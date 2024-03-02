@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Registeration Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>康复系统用户注册</h2>
+    <form action="{{ url_for('register') }}" method="post">
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="name">姓名:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" name="name">
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱:</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱" name="email">
+        </div>
+        <div class="form-group">
+            <label for="pwd">密码:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" name="pswd">
+        </div>
+        <div class="form-group">
+            <label for="rol">请选择角色:</label>
+            <select class="form-control" name="rol">
+                <option>门诊缴费</option>
+                <option>护士</option>
+                <option>医生</option>
+                <option>保洁</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="depart">请选择科室:</label>
+            <select class="form-control" name="depart">
+                <option>中医科</option>
+                <option>内科</option>
+                <option>外科</option>
+                <option>骨科</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">注册</button>
+        <p class="bottom">已经拥有账户？<a class="bottom" href="{{ url_for('login') }}">点击此处登录</a></p>
+    </form>
+</div>
+</body>
+</html>
+
