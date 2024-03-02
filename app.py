@@ -108,7 +108,6 @@ def add_patient():
         account = cursor.fetchone()
         if account:
             mesage = '患者已存在 !'
-        #     检查是否符合邮箱格式
         elif not patient_name or not age or not patient_id:
             mesage = '请全部填写!'
         else:
