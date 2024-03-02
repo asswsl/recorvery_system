@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>新增患者</h2>
+    <form action="{{ url_for('add_patient') }}" method="post">
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="patient_name">患者姓名:</label>
+            <input type="text" class="form-control" id="patient_name" name="patient_name" placeholder="请输入姓名">
+        </div>
+        <div class="form-group">
+            <label for="sex">请选择性别:</label>
+            <select class="form-control" name="sex">
+                <option>男</option>
+                <option>女</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="age">年龄:</label>
+            <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+        </div>
+        <div class="form-group">
+            <label for="patient_id">卡号:</label>
+            <input type="text" class="form-control" id="patient_id" name="patient_id" placeholder="请输入卡号">
+        </div>
+        <div class="form-group">
+            <label for="start_time">挂号时间:</label>
+            <input type="date" class="form-control" id="start_time" name="start_time" placeholder="请选择挂号时间">
+        </div>
+        <div class="form-group">
+            <label for="diagnosis_time">开方时间:</label>
+            <input type="date" class="form-control" id="diagnosis_time" name="diagnosis_time" placeholder="请选择开方时间">
+        </div>
+        <button type="submit" class="btn btn-primary">增加患者信息</button>
+        <p class="bottom">填写完毕？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主菜单</a></p>
+    </form>
+</div>
+</body>
+</html>
