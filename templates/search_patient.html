@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <form method="post" action="{{ url_for('search') }}">
+    <form method="post" action="{{ url_for('search_patient') }}">
         {% if mesage is defined and mesage %}
             <div class="alert alert-warning">{{ mesage }}</div>
         {% endif %}

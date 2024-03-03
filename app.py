@@ -35,7 +35,7 @@ def login():
             mesage = 'logged in successfully'
             return render_template('check.html', mesage=mesage)
         else:
-            mesage = 'Please enter correct email / password !'
+            mesage = '请输入准确信息!'
     return render_template('login.html', mesage=mesage)
 
 
@@ -106,8 +106,12 @@ def add_patient():
         cursor.execute('select * from patient_info where patient_name=%s and sex=%s and age=%s and patient_id=%s',
                        (patient_name, sex, age, patient_id))
         account = cursor.fetchone()
+        cursor.execute('select * from patient_info where patient_id=%s',patient_id)
+        id=cursor.fetchone()
         if account:
             mesage = '患者已存在 !'
+        elif id:
+            mesage='患者卡号不能相同'
         elif not patient_name or not age or not patient_id:
             mesage = '请全部填写!'
         else:
@@ -120,8 +124,8 @@ def add_patient():
     return render_template('add_patient.html', mesage=mesage)
 
 
-@app.route('/search', methods=['POST', 'GET'])
-def search():
+@app.route('/search_patient', methods=['POST', 'GET'])
+def search_patient():
     mesage = ''
     result = ''
     fields = ['patient_id', 'patient_name', 'sex', 'age', 'start_time', 'diagnosis_time']
@@ -140,7 +144,25 @@ def search():
             else:
                 mesage = '查询成功'
             print(result)
-    return render_template('search.html', data=result, mesage=mesage)
+    return render_template('search_patient.html', data=result, mesage=mesage)
+
+
+@app.route('/delete_patient', methods=['POST', 'GET'])
+def delete_patient():
+    mesage = ''
+    cursor.execute('select * from patient_info')
+    result = cursor.fetchall()
+    if request.method == 'POST' and 'id' in request.form:
+        del_id = request.form['id']
+        cursor.execute('delete from patient_info where patient_id=%s', del_id)
+        db.commit()
+        resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
+        if not resu:
+            mesage = '删除成功'
+        else:
+            mesage = '删除失败'
+    return render_template('delete_patient.html', data=result, mesage=mesage)
+
 
 
 if __name__ == '__main__':

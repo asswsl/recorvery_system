@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center">删除界面</h2>
+    {% if mesage is defined and mesage %}
+        <div class="alert alert-warning">{{ mesage }}</div>
+    {% endif %}
+    <div class="card">
+        <h3>已登记患者名单</h3>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">患者姓名</li>
+            <li class="list-group-item">性别</li>
+            <li class="list-group-item">年龄</li>
+            <li class="list-group-item">卡号</li>
+            <li class="list-group-item">登记日期</li>
+            <li class="list-group-item">开方日期</li>
+        </ul>
+        {% for items in data %}
+            <tr>
+                <td>------{{ items[1] }}------</td>
+                <td>----{{ items[2] }}---</td>
+                <td>-----{{ items[3] }}---</td>
+                <td>-----{{ items[0] }}---</td>
+                <td>----{{ items[5] }}--</td>
+                <td>--{{ items[6] }}</td>
+                <td>
+                    <form style="display: inline-block" method="post" action="{{ url_for('delete_patient') }}">
+                        <button type="submit" class="btn btn-outline-primary" name="id" value="{{ items[0] }}">删除
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <br>
+        {% endfor %}
+    </div>
+    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主界面</a></p>
+</div>
+</body>
+</html>
