@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <form method="post" action="{{ url_for('search') }}">
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <h2 class="text-center">选择查询方式</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" name="data" placeholder="请输入要查询的数据并选择查询方式">
+        </div>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="patient_id">卡号</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="patient_name">姓名</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="sex">性别</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="age">年龄</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="start_time">挂号时间</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="diagnosis_time">诊断时间</button>
+    </form>
+
+    <div class="card">
+        <h3>已登记患者名单</h3>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">患者姓名</li>
+            <li class="list-group-item">性别</li>
+            <li class="list-group-item">年龄</li>
+            <li class="list-group-item">卡号</li>
+            <li class="list-group-item">登记日期</li>
+            <li class="list-group-item">开方日期</li>
+        </ul>
+        {% for items in data %}
+            <tr>
+                <td>------{{ items[1] }}------</td>
+                <td>----{{ items[2] }}---</td>
+                <td>-----{{ items[3] }}---</td>
+                <td>-----{{ items[0] }}---</td>
+                <td>----{{ items[5] }}--</td>
+                <td>--{{ items[6] }}</td>
+            </tr>
+            <br>
+        {% endfor %}
+    </div>
+    <p class="bottom">查询结束？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主界面</a></p>
+</div>
+</body>
+</html>

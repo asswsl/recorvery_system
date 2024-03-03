@@ -120,5 +120,28 @@ def add_patient():
     return render_template('add_patient.html', mesage=mesage)
 
 
+@app.route('/search', methods=['POST', 'GET'])
+def search():
+    mesage = ''
+    result = ''
+    fields = ['patient_id', 'patient_name', 'sex', 'age', 'start_time', 'diagnosis_time']
+    if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
+        kind = request.form['kind']
+        data = request.form['data']
+        if kind not in fields:
+            mesage = '错误查询'
+        elif not data:
+            mesage = '请填写查询数据'
+        else:
+            cursor.execute('select * from patient_info where %s=%%s' % kind, (data,))
+            result = cursor.fetchall()
+            if not result:
+                mesage = '不存在信息'
+            else:
+                mesage = '查询成功'
+            print(result)
+    return render_template('search.html', data=result, mesage=mesage)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
