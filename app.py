@@ -106,12 +106,12 @@ def add_patient():
         cursor.execute('select * from patient_info where patient_name=%s and sex=%s and age=%s and patient_id=%s',
                        (patient_name, sex, age, patient_id))
         account = cursor.fetchone()
-        cursor.execute('select * from patient_info where patient_id=%s',patient_id)
-        id=cursor.fetchone()
+        cursor.execute('select * from patient_info where patient_id=%s', patient_id)
+        id = cursor.fetchone()
         if account:
             mesage = '患者已存在 !'
         elif id:
-            mesage='患者卡号不能相同'
+            mesage = '患者卡号不能相同'
         elif not patient_name or not age or not patient_id:
             mesage = '请全部填写!'
         else:
@@ -163,6 +163,35 @@ def delete_patient():
             mesage = '删除失败'
     return render_template('delete_patient.html', data=result, mesage=mesage)
 
+
+@app.route('/alter_patient', methods=['POST', 'GET'])
+def alter_patient():
+    mesage1 = ''
+    mesage2 = ''
+    result = ''
+    if request.method == 'POST' and 'patient_id' in request.form:
+        patient_id = request.form['patient_id']
+        cursor.execute('select * from patient_info where patient_id=%s', (patient_id))
+        result = cursor.fetchone()
+        print(result)
+        if not result:
+            mesage1 = '查询失败'
+        else:
+            mesage1 = '查询成功'
+    if request.method == 'POST' and 'patient_name' in request.form and 'sex' in request.form and 'age' in request.form:
+        patient_id = request.form['patient_id']
+        patient_name = request.form['patient_name']
+        sex = request.form['sex']
+        age = request.form['age']
+        start_time = request.form['start_time']
+        diagnosis_time = request.form['diagnosis_time']
+        print(patient_name, sex, age)
+        cursor.execute(
+            'update patient_info set patient_name=%s ,sex=%s,age=%s,start_time=%s,diagnosis_time=%s where patient_id=%s',
+            (patient_name, sex, age, start_time, diagnosis_time, patient_id))
+        db.commit()
+        mesage2 = '修改成功'
+    return render_template('alter_patient.html', data=result, mesage1=mesage1, mesage2=mesage2)
 
 
 if __name__ == '__main__':
