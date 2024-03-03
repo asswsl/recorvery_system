@@ -3,9 +3,9 @@ import pymysql
 import re
 
 app = Flask(__name__)
-app.secret_key = 'ys124126'
+app.secret_key = 'mgm81849117415'
 
-db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system", charset="utf8")
+db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system", charset="utf8")
 cursor = db.cursor()
 
 
@@ -33,7 +33,10 @@ def login():
             session['role'] = user[4]
             session['depart'] = user[5]
             mesage = 'logged in successfully'
-            return render_template('check.html', mesage=mesage)
+            cursor.execute('select * from patient_info')
+            result = cursor.fetchall()
+
+            return render_template('check.html', mesage=mesage, data=result)
         else:
             mesage = '请输入准确信息!'
     return render_template('login.html', mesage=mesage)
@@ -79,7 +82,10 @@ def register():
 
 @app.route('/check')
 def check():
-    return render_template('check.html')
+    cursor.execute('select * from patient_info')
+    result = cursor.fetchall()
+    return render_template('check.html', data=result)
+
 
 
 @app.route('/flush', methods=['POST', 'GET'])
@@ -192,6 +198,7 @@ def alter_patient():
         db.commit()
         mesage2 = '修改成功'
     return render_template('alter_patient.html', data=result, mesage1=mesage1, mesage2=mesage2)
+
 
 
 if __name__ == '__main__':
