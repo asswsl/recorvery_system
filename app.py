@@ -162,8 +162,11 @@ def delete_patient():
         del_id = request.form['id']
         cursor.execute('delete from patient_info where patient_id=%s', del_id)
         db.commit()
-        resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
-        if not resu:
+        #点击后刷新表格
+        cursor.execute('select * from patient_info')
+        result = cursor.fetchall()
+        #resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
+        if not result:
             mesage = '删除成功'
         else:
             mesage = '删除失败'

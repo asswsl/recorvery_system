@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <style>
+        .list-inline-item {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <h2 class="text-center">删除界面</h2>
-    {% if mesage is defined and mesage %}
-        <div class="alert alert-warning">{{ mesage }}</div>
+    {% if message is defined and message %}
+        <div class="alert alert-warning">{{ message }}</div>
     {% endif %}
     <div class="card">
         <h3>已登记患者名单</h3>
@@ -20,22 +25,23 @@
             <li class="list-group-item">卡号</li>
             <li class="list-group-item">登记日期</li>
             <li class="list-group-item">开方日期</li>
+            <li class="list-group-item">操作</li>
         </ul>
-        {% for items in data %}
-            <tr>
-                <td>------{{ items[1] }}------</td>
-                <td>----{{ items[2] }}---</td>
-                <td>-----{{ items[3] }}---</td>
-                <td>-----{{ items[0] }}---</td>
-                <td>----{{ items[5] }}--</td>
-                <td>--{{ items[6] }}</td>
-                <td>
+        {% for item in data %}
+            <div class="list-inline">
+                <li class="list-inline-item">------{{ item[1] }}------</li>
+                <li class="list-inline-item">----{{ item[2] }}---</li>
+                <li class="list-inline-item">---{{ item[3] }}---</li>
+                <li class="list-inline-item">---{{ item[0] }}---</li>
+                <li class="list-inline-item">--{{ item[5] }}--</li>
+                <li class="list-inline-item">--{{ item[6] }}</li>
+                <li class="list-inline-item">
                     <form style="display: inline-block" method="post" action="{{ url_for('delete_patient') }}">
-                        <button type="submit" class="btn btn-outline-primary" name="id" value="{{ items[0] }}">删除
+                        <button type="submit" class="btn btn-outline-primary" name="id" value="{{ item[0] }}">删除
                         </button>
                     </form>
-                </td>
-            </tr>
+                </li>
+            </div>
             <br>
         {% endfor %}
     </div>
