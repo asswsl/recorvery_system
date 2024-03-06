@@ -14,6 +14,7 @@ def index():
     return render_template('login.html')
 
 
+# 登陆
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     mesage = ''
@@ -36,7 +37,7 @@ def login():
             cursor.execute('select * from patient_info')
             result = cursor.fetchall()
             # 根据角色不同，进入不同的页面
-            if session['role']=='护士站':
+            if session['role'] == '护士站':
                 return render_template('check.html', mesage=mesage, data=result)
             else:
                 return render_template('user.html')
@@ -54,6 +55,7 @@ def logout():
     return redirect(url_for('login'))
 
 
+# 注册
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     mesage = ''
@@ -83,25 +85,28 @@ def register():
     return render_template('register.html', mesage=mesage)
 
 
+# 护士站首页
 @app.route('/check')
 def check():
     cursor.execute('select * from patient_info')
     result = cursor.fetchall()
-    return render_template('check.html', data=result)
+    cursor.execute('select * from patient_info where hospital_id is not null')
+    check_result = cursor.fetchall()
+    return render_template('check.html', data=result,check_data=check_result)
 
 
-
+# 刷新
 @app.route('/flush', methods=['POST', 'GET'])
 def flush():
     cursor.execute('select * from patient_info')
     result = cursor.fetchall()
-    # for items in result:
-    #     print(items)
-    #     for item in items:
-    #         print(item)
-    return render_template('check.html', data=result)
+    cursor.execute('select * from patient_info where hospital_id is not null')
+    check_result = cursor.fetchall()
+    # print(check_result)
+    return render_template('check.html', data=result, check_data=check_result)
 
 
+# 增加患者信息
 @app.route('/add_patient', methods=['POST', 'GET'])
 def add_patient():
     mesage = ''
@@ -133,6 +138,7 @@ def add_patient():
     return render_template('add_patient.html', mesage=mesage)
 
 
+# 搜索患者信息
 @app.route('/search_patient', methods=['POST', 'GET'])
 def search_patient():
     mesage = ''
@@ -156,6 +162,7 @@ def search_patient():
     return render_template('search_patient.html', data=result, mesage=mesage)
 
 
+# 删除患者信息
 @app.route('/delete_patient', methods=['POST', 'GET'])
 def delete_patient():
     mesage = ''
@@ -165,10 +172,10 @@ def delete_patient():
         del_id = request.form['id']
         cursor.execute('delete from patient_info where patient_id=%s', del_id)
         db.commit()
-        #点击后刷新表格
+        # 点击后刷新表格
         cursor.execute('select * from patient_info')
         result = cursor.fetchall()
-        #resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
+        # resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
         if not result:
             mesage = '删除成功'
         else:
@@ -176,6 +183,7 @@ def delete_patient():
     return render_template('delete_patient.html', data=result, mesage=mesage)
 
 
+# 修改患者信息
 @app.route('/alter_patient', methods=['POST', 'GET'])
 def alter_patient():
     mesage1 = ''
@@ -204,7 +212,6 @@ def alter_patient():
         db.commit()
         mesage2 = '修改成功'
     return render_template('alter_patient.html', data=result, mesage1=mesage1, mesage2=mesage2)
-
 
 
 if __name__ == '__main__':

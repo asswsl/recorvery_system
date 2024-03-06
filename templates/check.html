@@ -55,6 +55,26 @@
     </div>
     <div class="card">
         <h3>已登记康复治疗项目列表</h3>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">卡号</li>
+            <li class="list-group-item">患者姓名</li>
+            <li class="list-group-item">性别</li>
+            <li class="list-group-item">年龄</li>
+            <li class="list-group-item">治疗项目</li>
+            <li class="list-group-item">总治疗次数</li>
+            <li class="list-group-item">已治疗次数</li>
+        </ul>
+                {% for items in check_data %}
+                    <tr>
+                        <td>-----{{ items[0] }}---</td>
+                        <td>------{{ items[1] }}------</td>
+                        <td>----{{ items[2] }}---</td>
+                        <td>-----{{ items[3] }}---</td>
+                        <td>----{{ items[5] }}--</td>
+                        <td>--{{ items[6] }}</td>
+                    </tr>
+                    <br>
+                {% endfor %}
     </div>
 </div>
 </body>
