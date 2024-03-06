@@ -5,7 +5,7 @@ import re
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
-db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system", charset="utf8")
+db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system", charset="utf8")
 cursor = db.cursor()
 
 
@@ -43,7 +43,7 @@ def login():
                 return render_template('user.html')
         else:
             mesage = '请输入准确信息!'
-    return render_template('login.html', mesage=mesage)
+            return render_template('login.html', mesage=mesage)
 
 
 # 注销功能
@@ -90,9 +90,9 @@ def register():
 def check():
     cursor.execute('select * from patient_info')
     result = cursor.fetchall()
-    cursor.execute('select * from patient_info where hospital_id is not null')
+    cursor.execute('select * from treat_info')
     check_result = cursor.fetchall()
-    return render_template('check.html', data=result,check_data=check_result)
+    return render_template('check.html', data=result, check_data=check_result)
 
 
 # 刷新
@@ -100,7 +100,7 @@ def check():
 def flush():
     cursor.execute('select * from patient_info')
     result = cursor.fetchall()
-    cursor.execute('select * from patient_info where hospital_id is not null')
+    cursor.execute('select * from treat_info')
     check_result = cursor.fetchall()
     # print(check_result)
     return render_template('check.html', data=result, check_data=check_result)
