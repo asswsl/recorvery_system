@@ -35,8 +35,11 @@ def login():
             mesage = 'logged in successfully'
             cursor.execute('select * from patient_info')
             result = cursor.fetchall()
-
-            return render_template('check.html', mesage=mesage, data=result)
+            # 根据角色不同，进入不同的页面
+            if session['role']=='护士站':
+                return render_template('check.html', mesage=mesage, data=result)
+            else:
+                return render_template('user.html')
         else:
             mesage = '请输入准确信息!'
     return render_template('login.html', mesage=mesage)
