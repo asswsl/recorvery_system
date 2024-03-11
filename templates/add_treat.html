@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <h2>新增患者</h2>
+    <form action="{{ url_for('add_treat') }}" method="post">
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="patient_name">患者姓名:</label>
+            <input type="text" class="form-control" id="patient_name" name="patient_name" placeholder="请输入姓名">
+        </div>
+        <div class="form-group">
+            <label for="sex">请选择性别:</label>
+            <select class="form-control" name="sex">
+                <option>男</option>
+                <option>女</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="age">年龄:</label>
+            <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+        </div>
+        <div class="form-group">
+            <label for="patient_id">卡号:</label>
+            <input type="text" class="form-control" id="patient_id" name="patient_id" placeholder="请输入卡号">
+        </div>
+        <div class="form-group">
+            <label for="doctor">主治医师:</label>
+            <input type="text" class="form-control" id="doctor" name="doctor" placeholder="请输入主治医师">
+        </div>
+        <div class="form-group">
+            <label for="treatments">治疗项目:</label>
+            <input type="text" class="form-control" id="treatments" name="treatments" placeholder="请输入治疗项目">
+        </div>
+        <div class="form-group">
+            <label for="total_numbers">总治疗次数:</label>
+            <input type="text" class="form-control" id="total_numbers" name="total_numbers" placeholder="请输入总治疗次数">
+        </div>
+        <button type="submit" class="btn btn-primary">保存</button>
+        <p class="bottom">填写完毕？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主菜单</a></p>
+    </form>
+</div>
+</body>
+</html>

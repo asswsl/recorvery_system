@@ -5,7 +5,7 @@ import re
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
-db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system", charset="utf8")
+db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system", charset="utf8")
 cursor = db.cursor()
 
 
@@ -43,7 +43,7 @@ def login():
                 return render_template('user.html')
         else:
             mesage = '请输入准确信息!'
-            return render_template('login.html', mesage=mesage)
+    return render_template('login.html', mesage=mesage)
 
 
 # 注销功能
@@ -52,7 +52,7 @@ def logout():
     session.pop('loggedin', None)
     session.pop('userid', None)
     session.pop('email', None)
-    return redirect(url_for('login'))
+    return render_template('login.html')
 
 
 # 注册
@@ -158,7 +158,7 @@ def search_patient():
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
-            print(result)
+            # print(result)
     return render_template('search_patient.html', data=result, mesage=mesage)
 
 
@@ -193,7 +193,7 @@ def alter_patient():
         patient_id = request.form['patient_id']
         cursor.execute('select * from patient_info where patient_id=%s', (patient_id))
         result = cursor.fetchone()
-        print(result)
+        # print(result)
         if not result:
             mesage1 = '查询失败'
         else:
@@ -205,13 +205,70 @@ def alter_patient():
         age = request.form['age']
         start_time = request.form['start_time']
         diagnosis_time = request.form['diagnosis_time']
-        print(patient_name, sex, age)
+        # print(patient_name, sex, age)
         cursor.execute(
             'update patient_info set patient_name=%s ,sex=%s,age=%s,start_time=%s,diagnosis_time=%s where patient_id=%s',
             (patient_name, sex, age, start_time, diagnosis_time, patient_id))
         db.commit()
         mesage2 = '修改成功'
     return render_template('alter_patient.html', data=result, mesage1=mesage1, mesage2=mesage2)
+
+
+# 搜索治疗信息
+@app.route('/search_treat', methods=['POST', 'GET'])
+def search_treat():
+    mesage = ''
+    result = ''
+    fields = ['patient_id', 'patient_name', 'sex', 'age', 'doctor', 'treatments', 'total_numbers', 'used_numbers']
+    if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
+        kind = request.form['kind']
+        data = request.form['data']
+        if kind not in fields:
+            mesage = '错误查询'
+        elif not data:
+            mesage = '请填写查询数据'
+        else:
+            cursor.execute('select * from treat_info where %s=%%s' % kind, (data,))
+            result = cursor.fetchall()
+            if not result:
+                mesage = '不存在信息'
+            else:
+                mesage = '查询成功'
+            # print(result)
+    return render_template('search_treat.html', data=result, mesage=mesage)
+
+
+# 增加治疗信息
+@app.route('/add_treat', methods=['POST', 'GET'])
+def add_treat():
+    mesage = ''
+    if request.method == 'POST' and 'patient_name' in request.form and 'age' in request.form and 'patient_id' in request.form:
+        patient_name = request.form['patient_name']
+        sex = request.form['sex']
+        age = request.form['age']
+        patient_id = request.form['patient_id']
+        doctor = request.form['doctor']
+        treatments = request.form['treatments']
+        total_numbers=request.form['total_numbers']
+        cursor.execute('select * from treat_info where patient_name=%s and sex=%s and age=%s and patient_id=%s',
+                       (patient_name, sex, age, patient_id))
+        account = cursor.fetchone()
+        cursor.execute('select * from treat_info where patient_id=%s', patient_id)
+        id = cursor.fetchone()
+        if account:
+            mesage = '患者已存在 !'
+        elif id:
+            mesage = '患者卡号不能相同'
+        elif not patient_name or not age or not patient_id:
+            mesage = '请全部填写!'
+        else:
+            cursor.execute('insert into treat_info values (%s,%s,%s,%s,%s,%s,%s,%s)',
+                           (patient_id, patient_name, sex, age, doctor, treatments,total_numbers,None))
+            db.commit()
+            mesage = '增加成功!'
+    elif request.method == 'POST':
+        mesage = '请全部填写 !'
+    return render_template('add_treat.html', mesage=mesage)
 
 
 if __name__ == '__main__':

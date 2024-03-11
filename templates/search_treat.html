@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <form method="post" action="{{ url_for('search_treat') }}">
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <h2 class="text-center">选择查询方式</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" name="data" placeholder="请输入要查询的数据并选择查询方式">
+        </div>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="patient_id">卡号</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="patient_name">姓名</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="sex">性别</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="age">年龄</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="doctor">医生</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="treatments">治疗项目</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="total_numbers">总治疗次数</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="used_numbers">已治疗次数</button>
+    </form>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">卡号</li>
+        <li class="list-group-item">患者姓名</li>
+        <li class="list-group-item">性别</li>
+        <li class="list-group-item">年龄</li>
+        <li class="list-group-item">主治医生</li>
+        <li class="list-group-item">治疗项目</li>
+        <li class="list-group-item">总治疗次数</li>
+        <li class="list-group-item">已治疗次数</li>
+    </ul>
+    {% for items in data %}
+        <tr>
+            <td>-----{{ items[0] }}---</td>
+            <td>------{{ items[1] }}-------</td>
+            <td>----{{ items[2] }}---</td>
+            <td>-----{{ items[3] }}---</td>
+            <td>------{{ items[4] }}------</td>
+            <td>----{{ items[5] }}----</td>
+            <td>----{{ items[6] }}------</td>
+            <td>---------{{ items[7] }}</td>
+
+
+        </tr>
+        <br>
+    {% endfor %}
+    <p class="bottom">查询结束？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主界面</a></p>
+</div>
+
+
+</body>
+</html>
