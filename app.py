@@ -21,8 +21,8 @@ def login():
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         email = request.form['email']
         password = request.form['password']
-        rol = request.form['rol']
-        depart = request.form['depart']
+        rol = request.form['rol']  # 角色
+        depart = request.form['depart']  # 部门
         cursor.execute('select * from user where email=%s and password=%s and rol=%s and depart=%s',
                        (email, password, rol, depart))
         user = cursor.fetchone()
@@ -31,14 +31,19 @@ def login():
             session['userid'] = user[0]
             session['name'] = user[1]
             session['email'] = user[2]
-            session['role'] = user[4]
+            session['rol'] = user[4]
             session['depart'] = user[5]
             mesage = 'logged in successfully'
-            cursor.execute('select * from patient_info')
-            result = cursor.fetchall()
             # 根据角色不同，进入不同的页面
-            if session['role'] == '护士站':
-                return render_template('check.html', mesage=mesage, data=result)
+            if session['rol'] == '护士站':
+                # 当进入护士站页面时，同步显示出登记病人信息以及治疗项目信息
+                cursor.execute('select * from patient_info')
+                result = cursor.fetchall()
+                cursor.execute('select * from treat_info')
+                check_result = cursor.fetchall()
+                return render_template('check.html', mesage=mesage, data=result, check_data=check_result)
+            elif session['rol'] == '管理员':
+                return render_template('admin.html', mesage=mesage)
             else:
                 return render_template('user.html')
         else:
@@ -249,7 +254,7 @@ def add_treat():
         patient_id = request.form['patient_id']
         doctor = request.form['doctor']
         treatments = request.form['treatments']
-        total_numbers=request.form['total_numbers']
+        total_numbers = request.form['total_numbers']
         cursor.execute('select * from treat_info where patient_name=%s and sex=%s and age=%s and patient_id=%s',
                        (patient_name, sex, age, patient_id))
         account = cursor.fetchone()
@@ -263,7 +268,7 @@ def add_treat():
             mesage = '请全部填写!'
         else:
             cursor.execute('insert into treat_info values (%s,%s,%s,%s,%s,%s,%s,%s)',
-                           (patient_id, patient_name, sex, age, doctor, treatments,total_numbers,None))
+                           (patient_id, patient_name, sex, age, doctor, treatments, total_numbers, None))
             db.commit()
             mesage = '增加成功!'
     elif request.method == 'POST':
