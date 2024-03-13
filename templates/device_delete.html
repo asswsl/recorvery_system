@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+    <style>
+        .list-inline-item {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center">报废界面</h2>
+    {% if message is defined and message %}
+        <div class="alert alert-warning">{{ message }}</div>
+    {% endif %}
+    <div class="card">
+        <h3>设备信息</h3>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">设备编号</li>
+            <li class="list-group-item">设备名称</li>
+            <li class="list-group-item">设备类型</li>
+            <li class="list-group-item">设备归属</li>
+            <li class="list-group-item">购入日期</li>
+        </ul>
+        {% for item in data %}
+            <div class="list-inline">
+                <li class="list-inline-item">------{{ item[0] }}------</li>
+                <li class="list-inline-item">----{{ item[1] }}---</li>
+                <li class="list-inline-item">---{{ item[2] }}---</li>
+                <li class="list-inline-item">---{{ item[3] }}---</li>
+                <li class="list-inline-item">--{{ item[4] }}--</li>
+                <li class="list-inline-item">
+                    <form style="display: inline-block" method="post" action="{{ url_for('device_delete') }}">
+                        <button type="submit" class="btn btn-outline-primary" name="id" value="{{ item[0] }}">报废
+                        </button>
+                    </form>
+                </li>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+    <p class="bottom">操作结束？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主界面</a></p>
+</div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import pymysql
 import re
+from datetime import date
 
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
@@ -274,6 +275,98 @@ def add_treat():
     elif request.method == 'POST':
         mesage = '请全部填写 !'
     return render_template('add_treat.html', mesage=mesage)
+
+
+# 管理员界面
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+
+# 设备信息浏览
+@app.route('/device_info', methods=['POST', 'GET'])
+def device_info():
+    cursor.execute('select * from device_info where end_time is null')
+    result = cursor.fetchall()
+    return render_template('device_info.html', data=result)
+
+
+# 设备信息查找
+@app.route('/device_search', methods=['POST', 'GET'])
+def device_search():
+    mesage = ''
+    search_result = ''
+    fields = ['device_id', 'device_name', 'device_type', 'device_own', 'start_time', 'end_time']
+    if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
+        kind = request.form['kind']
+        data = request.form['data']
+        if kind not in fields:
+            mesage = '错误查询'
+        elif not data:
+            mesage = '请填写查询数据'
+        else:
+            cursor.execute('select * from device_info where %s=%%s' % kind, (data,))
+            search_result = cursor.fetchall()
+            if not search_result:
+                mesage = '不存在信息'
+            else:
+                mesage = '查询成功'
+            # print(result)
+    return render_template('device_info.html', search_data=search_result, mesage=mesage)
+
+
+# 新增设备信息
+@app.route('/device_add', methods=['POST', 'GET'])
+def device_add():
+    mesage = ''
+    if request.method == 'POST' and 'device_id' in request.form and 'device_name' in request.form and 'device_type' in request.form and 'device_own' in request.form:
+        device_id = request.form['device_id']
+        device_name = request.form['device_name']
+        device_type = request.form['device_type']
+        device_own = request.form['device_own']
+        start_time = request.form['start_time']
+        cursor.execute(
+            'select * from device_info where device_id=%s and device_name=%s and device_type=%s and device_own=%s',
+            (device_id, device_name, device_type, device_own))
+        device = cursor.fetchone()
+        cursor.execute('select * from device_info where device_id=%s', device_id)
+        id = cursor.fetchone()
+        if device:
+            mesage = '设备已存在 !'
+        elif id:
+            mesage = '设备编号不能相同'
+        elif not device_id or not device_name or not device_type:
+            mesage = '请全部填写!'
+        else:
+            cursor.execute('insert into device_info values (%s,%s,%s,%s,%s,%s)',
+                           (device_id, device_name, device_type, device_own, start_time, None))
+            db.commit()
+            mesage = '增加成功!'
+    elif request.method == 'POST':
+        mesage = '请全部填写 !'
+    return render_template('device_add.html', mesage=mesage)
+
+
+# 设备报废 不能用删除的思路，应当添加报废日期
+@app.route('/device_delete',methods=['POST', 'GET'])
+def device_delete():
+    mesage = ''
+    cursor.execute('select * from device_info where end_time is null ')
+    result = cursor.fetchall()
+    end_time = date.today()
+    if request.method == 'POST' and 'id' in request.form:
+        device_id = request.form['id']
+        cursor.execute('update device_info set end_time = %s where device_id = %s', (end_time, device_id))
+        db.commit()
+        # 点击后刷新表格
+        cursor.execute('select * from device_info where end_time is null ')
+        result = cursor.fetchall()
+        # resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
+        if not result:
+            mesage = '报废成功'
+        else:
+            mesage = '报废失败'
+    return render_template('device_delete.html', data=result, mesage=mesage)
 
 
 if __name__ == '__main__':

@@ -3,8 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
 </head>
 <body>
-
+<h2 class="text-center">管理员界面</h2>
+<div class="card">
+    <h5 class="card-header">器材</h5>
+    <div class="card-body">
+        <h5 class="card-title">点击选择不同功能</h5>
+        <a href="{{ url_for('device_info') }}" class="btn btn-primary">查看</a>
+        <a href="{{ url_for('device_add') }}" class="btn btn-primary">新增</a>
+        <a href="{{ url_for('device_delete') }}" class="btn btn-primary">报废</a>
+    </div>
+</div>
+<div class="card">
+    <h5 class="card-header">医师</h5>
+    <div class="card-body">
+        <h5 class="card-title">点击选择不同功能</h5>
+        <a href="#" class="btn btn-primary">查看</a>
+        <a href="#" class="btn btn-primary">新增</a>
+        <a href="#" class="btn btn-primary">删除</a>
+        <a href="#" class="btn btn-primary">修改</a>
+    </div>
+</div>
+<div class="card">
+    <h5 class="card-header">治疗项目</h5>
+    <div class="card-body">
+        <h5 class="card-title">点击选择不同功能</h5>
+        <a href="#" class="btn btn-primary">查看</a>
+        <a href="#" class="btn btn-primary">新增</a>
+        <a href="#" class="btn btn-primary">删除</a>
+        <a href="#" class="btn btn-primary">修改</a>
+    </div>
+</div>
+<div class="card">
+    <h5 class="card-header">治疗次数</h5>
+    <div class="card-body">
+        <h5 class="card-title">点击选择不同功能</h5>
+        <a href="#" class="btn btn-primary">查看</a>
+        <a href="#" class="btn btn-primary">新增</a>
+        <a href="#" class="btn btn-primary">删除</a>
+        <a href="#" class="btn btn-primary">修改</a>
+    </div>
+</div>
 </body>
 </html>
