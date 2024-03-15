@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+
+</head>
+<body>
+    <div class="container">
+      <h2>新增医师</h2>
+      <form action="{{ url_for('doctor_add') }}" method="post">
+        {% if mesage is defined and mesage %}
+          <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="doctor_id">医师编号:</label>
+            <input type="text" class="form-control" id="doctor_id" name="device_id" placeholder="请输入医师编号">
+        </div>
+        <div class="form-group">
+            <label for="doctor_name">医师名称:</label>
+            <input type="text" class="form-control" id="doctor_name" name="device_name" placeholder="请输入医师名称">
+        </div>
+        <div class="form-group">
+            <label for="sex">性别:</label>
+            <input type="text" class="form-control" id="sex" name="device_type" placeholder="请输入医师性别">
+        </div>
+        <div class="form-group">
+            <label for="age">年龄:</label>
+            <input type="text" class="form-control" id="age" name="device_own" placeholder="请输入医师年龄">
+        </div>
+        <div class="form-group">
+            <label for="department">科室:</label>
+            <input type="text" class="form-control" id="department" name="start_time" placeholder="请输入医师科室">
+        </div>
+        <div class="form-group">
+            <label for="title">职称:</label>
+            <input type="text" class="form-control" id="title" name="start_time" placeholder="请输入医师职称">
+        </div>
+        <button type="submit" class="btn btn-primary">增加医师信息</button>
+        <p class="bottom">填写完毕？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主菜单</a></p>
+      </form>
+    </div>
+</body>
+</html>

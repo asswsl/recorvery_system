@@ -6,7 +6,8 @@ from datetime import date
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
-db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system", charset="utf8")
+db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system",
+                     charset="utf8")
 cursor = db.cursor()
 
 
@@ -20,8 +21,8 @@ def index():
 def login():
     mesage = ''
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
-        email = request.form['email']  #邮箱
-        password = request.form['password'] #密码
+        email = request.form['email']  # 邮箱
+        password = request.form['password']  # 密码
         rol = request.form['rol']  # 角色
         depart = request.form['depart']  # 部门
         cursor.execute('select * from user where email=%s and password=%s and rol=%s and depart=%s',
@@ -348,7 +349,7 @@ def device_add():
 
 
 # 设备报废 不能用删除的思路，应当添加报废日期
-@app.route('/device_delete',methods=['POST', 'GET'])
+@app.route('/device_delete', methods=['POST', 'GET'])
 def device_delete():
     mesage = ''
     cursor.execute('select * from device_info where end_time is null ')
@@ -368,44 +369,52 @@ def device_delete():
             mesage = '报废失败'
     return render_template('device_delete.html', data=result, mesage=mesage)
 
-#管理员页面--医师
-@app.route('/doctor_info',methods=['POST', 'GET'])
+
+# 管理员页面--医师
+@app.route('/doctor_info', methods=['POST', 'GET'])
 def doctor_info():
     cursor.execute('select * from doctor_info where age = 21')
     result = cursor.fetchall()
     return render_template('doctor_info.html', data=result)
 
 
-@app.route('/doctor_add',method=['POST','GET'])
+@app.route('/doctor_add', methods=['POST', 'GET'])
 def doctor_add():
-    mesage=''
-    if request.method == 'POST' and 'doctor_id' in request.form and 'doctor_name' in request.form and 'department' in request.form and 'sex' in request.form:
-        doctor_id = request.form['doctor_id']
-        doctor_name = request.form['doctor_name']
-        sex = request.form['sex']
-        age = request.form['age']
-        department = request.form['department']
-        title = request.form['title']
-        cursor.execute(
-            'select * from doctor_info where doctor_id=%s and doctor_name=%s and sex=%s and department=%s',
-            (doctor_id,doctor_name,sex,department))
-        doctor = cursor.fetchone()
-        cursor.execute('select * from doctor_info where doctor_id=%s',doctor_id)
-        id = cursor.fetchone()
-        if doctor:
-            mesage = '医师已存在！'
-        elif id:
-            mesage = '医师编号不能相同'
-        elif not doctor_id or not doctor_name or not department:
-            mesage = '请全部填写'
+    mesage = ''
+    if request.method == 'POST':
+        # 检查是否所有必需的字段都在表单中
+        required_fields = ['doctor_id', 'doctor_name', 'department', 'sex', 'age', 'title']
+        if all(field in request.form for field in required_fields):
+            doctor_id = request.form['doctor_id']
+            doctor_name = request.form['doctor_name']
+            sex = request.form['sex']
+            age = request.form['age']
+            department = request.form['department']
+            title = request.form['title']
+            # 检查医生是否已存在
+            cursor.execute(
+                'SELECT * FROM doctor_info WHERE doctor_id = %s AND doctor_name = %s AND sex = %s AND department = %s',
+                (doctor_id, doctor_name, sex, department))
+            doctor = cursor.fetchone()
+            # 检查医生编号是否已存在
+            cursor.execute('SELECT * FROM doctor_info WHERE doctor_id = %s', (doctor_id,))
+            id_exists = cursor.fetchone()
+            if doctor:
+                mesage = '医师已存在！'
+            elif id_exists:
+                mesage = '医师编号不能相同'
+            else:
+                # 将新医生插入数据库
+                cursor.execute('INSERT INTO doctor_info VALUES (%s, %s, %s, %s, %s, %s)',
+                               (doctor_id, doctor_name, sex, age, department, title))
+                db.commit()
+                mesage = '增加成功'
         else:
-            cursor.execute('insert into doctor_info values (%s,%s,%s，%s,%s)',
-                           ())
-            db.commit()
-            mesage='增加成功'
-    elif request.method == 'POST':
-        mesage = '请全部填写'
-    return render_template('doctor_add.html',mesage=mesage)
+            # 如果没有提供所有字段
+            mesage = '请全部填写'
+    return render_template('doctor_add.html', message=mesage)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

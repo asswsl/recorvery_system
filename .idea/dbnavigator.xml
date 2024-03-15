@@ -40,8 +40,8 @@ CREATE TABLE `doctor_info`  (
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" dataset="recorvery_system.doctor_info" active-filter-id="745935d4-71cf-49ed-b002-692cd4db0a26">
-      <filter id="745935d4-71cf-49ed-b002-692cd4db0a26" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="doctor_id" operator="=" value="" active="true" />
+      <filter id="745935d4-71cf-49ed-b002-692cd4db0a26" name="1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="doctor_id" operator="=" value="1" active="true" />
       </filter>
     </filter-actions>
     <filter-actions connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" dataset="recorvery_system.user" active-filter-id="EMPTY_FILTER">
@@ -65,6 +65,9 @@ CREATE TABLE `doctor_info`  (
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
+  </component>
+  <component name="DBNavigator.Project.ParserDiagnosticsManager">
+    <diagnostics-history />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
     <recently-used-interfaces>
