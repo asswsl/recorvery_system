@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+</head>
+<body>
+<div class="card container">
+    <h2>医师信息</h2>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">医师编号</li>
+        <li class="list-group-item">医师姓名</li>
+        <li class="list-group-item">性别</li>
+        <li class="list-group-item">年龄</li>
+        <li class="list-group-item">科室</li>
+        <li class="list-group-item">职称</li>
+    </ul>
+    {% for item in data %}
+        <ul class="list-group list-group-horizontal-sm">
+            <li class="list-group-item">{{ item[0] }}</li>
+            <li class="list-group-item">{{ item[1] }}</li>
+            <li class="list-group-item">{{ item[2] }}</li>
+            <li class="list-group-item">{{ item[3] }}</li>
+            <li class="list-group-item">{{ item[4] }}</li>
+            <li class="list-group-item">{{ item[5] }}</li>
+        </ul>
+    {% endfor %}
+    <form method="post" action="{{ url_for('doctor_info') }}">
+        <h2 class="text-center">选择查询方式</h2>
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <div class="form-group">
+            <input type="text" class="form-control" name="data" placeholder="请输入要查询的数据并选择查询方式">
+        </div>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="doctor_id">医师编号</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="doctor_name">医师姓名</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="sex">性别</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="age">年龄</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="department">科室</button>
+        <button type="submit" class="btn btn-outline-primary" name="kind" value="title">职称</button>
+    </form>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">医师编号</li>
+        <li class="list-group-item">医师姓名</li>
+        <li class="list-group-item">性别</li>
+        <li class="list-group-item">年龄</li>
+        <li class="list-group-item">科室</li>
+        <li class="list-group-item">职称</li>
+    </ul>
+    {% for item in search_data %}
+        <ul class="list-group list-group-horizontal-sm">
+            <li class="list-group-item">{{ item[0] }}</li>
+            <li class="list-group-item">{{ item[1] }}</li>
+            <li class="list-group-item">{{ item[2] }}</li>
+            <li class="list-group-item">{{ item[3] }}</li>
+            <li class="list-group-item">{{ item[4] }}</li>
+            <li class="list-group-item">{{ item[5] }}</li>
+        </ul>
+    {% endfor %}
+    <p class="bottom">浏览完毕？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主菜单</a></p>
+</div>
+</body>
+</html>
