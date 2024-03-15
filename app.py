@@ -6,7 +6,7 @@ from datetime import date
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
-db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system",
+db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system",
                      charset="utf8")
 cursor = db.cursor()
 
@@ -414,7 +414,7 @@ def doctor_add():
     mesage = ''
     if request.method == 'POST':
         # 检查是否所有必需的字段都在表单中
-        required_fields = ['doctor_id', 'doctor_name', 'department', 'sex', 'age', 'title']
+        required_fields = ['doctor_id', 'doctor_name', 'sex', 'age', 'department', 'title']
         if all(field in request.form for field in required_fields):
             doctor_id = request.form['doctor_id']
             doctor_name = request.form['doctor_name']
@@ -424,8 +424,9 @@ def doctor_add():
             title = request.form['title']
             # 检查医生是否已存在
             cursor.execute(
-                'SELECT * FROM doctor_info WHERE doctor_id = %s AND doctor_name = %s AND sex = %s AND department = %s',
-                (doctor_id, doctor_name, sex, department))
+                'SELECT * FROM doctor_info WHERE doctor_id = %s AND doctor_name = %s AND sex = %s AND age = %s AND '
+                'department = %s AND title = %s',
+                (doctor_id, doctor_name, sex, age, department, title))
             doctor = cursor.fetchone()
             # 检查医生编号是否已存在
             cursor.execute('SELECT * FROM doctor_info WHERE doctor_id = %s', (doctor_id,))
@@ -444,6 +445,25 @@ def doctor_add():
             # 如果没有提供所有字段
             mesage = '请全部填写'
     return render_template('doctor_add.html', mesage=mesage)
+
+@app.route('/doctor_delete', methods=['POST', 'GET'])
+def doctor_delete():
+    mesage = ''
+    cursor.execute('select * from doctor_info')
+    result = cursor.fetchall()
+    if request.method == 'POST' and 'doctor_id' in request.form:
+        doctor_id = request.form['doctor_id']
+        cursor.execute('delete from doctor_info where doctor_id = %s ', doctor_id)
+        db.commit()
+        #刷新
+        cursor.execute('select * from doctor_info')
+        result = cursor.fetchall()
+
+        if not result:
+            mesage = '删除成功'
+        else:
+            mesage = '删除失败'
+    return render_template('doctor_delete.html', data = result, mesage = mesage)
 
 
 if __name__ == '__main__':
