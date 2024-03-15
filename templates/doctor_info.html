@@ -26,7 +26,7 @@
             <li class="list-group-item">{{ item[5] }}</li>
         </ul>
     {% endfor %}
-    <form method="post" action="{{ url_for('doctor_info') }}">
+    <form method="post" action="{{ url_for('doctor_search') }}">
         <h2 class="text-center">选择查询方式</h2>
         {% if mesage is defined and mesage %}
             <div class="alert alert-warning">{{ mesage }}</div>

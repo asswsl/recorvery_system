@@ -6,7 +6,7 @@ from datetime import date
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
-db = pymysql.connect(host="localhost", user="root", password="mgm81849117415", database="recorvery_system",
+db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system",
                      charset="utf8")
 cursor = db.cursor()
 
@@ -373,11 +373,36 @@ def device_delete():
 # 管理员页面--医师
 @app.route('/doctor_info', methods=['POST', 'GET'])
 def doctor_info():
-    cursor.execute('select * from doctor_info where age = 21')
+    cursor.execute('select * from doctor_info')
     result = cursor.fetchall()
     return render_template('doctor_info.html', data=result)
 
 
+# 查询医师信息
+@app.route('/doctor_search', methods=['POST', 'GET'])
+def doctor_search():
+    mesage = ''
+    search_result = ''
+    fields = ['doctor_id', 'doctor_name', 'sex', 'age', 'department', 'title']
+    if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
+        kind = request.form['kind']
+        data = request.form['data']
+        if kind not in fields:
+            mesage = '错误查询'
+        elif not data:
+            mesage = '请填写查询数据'
+        else:
+            cursor.execute('select * from doctor_info where %s=%%s' % kind, (data,))
+            search_result = cursor.fetchall()
+            if not search_result:
+                mesage = '不存在信息'
+            else:
+                mesage = '查询成功'
+            # print(result)
+    return render_template('doctor_info.html', search_data=search_result, mesage=mesage)
+
+
+# 增加医师
 @app.route('/doctor_add', methods=['POST', 'GET'])
 def doctor_add():
     mesage = ''
@@ -412,8 +437,7 @@ def doctor_add():
         else:
             # 如果没有提供所有字段
             mesage = '请全部填写'
-    return render_template('doctor_add.html', message=mesage)
-
+    return render_template('doctor_add.html', mesage=mesage)
 
 
 if __name__ == '__main__':
