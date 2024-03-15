@@ -313,7 +313,10 @@ def device_search():
             else:
                 mesage = '查询成功'
             # print(result)
-    return render_template('device_info.html', search_data=search_result, mesage=mesage)
+    # 在查询后，总列表仍能显示
+    cursor.execute('select * from device_info where end_time is null')
+    result = cursor.fetchall()
+    return render_template('device_info.html',data=result, search_data=search_result, mesage=mesage)
 
 
 # 新增设备信息
@@ -398,8 +401,11 @@ def doctor_search():
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
-            # print(result)
-    return render_template('doctor_info.html', search_data=search_result, mesage=mesage)
+            # print(result)\
+    # 在查询后，总列表仍能显示
+    cursor.execute('select * from doctor_info')
+    result = cursor.fetchall()
+    return render_template('doctor_info.html', data=result, search_data=search_result, mesage=mesage)
 
 
 # 增加医师
