@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+    <style>
+        .list-inline-item {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="text-center">删除界面</h2>
+    {% if message is defined and message %}
+        <div class="alert alert-warning">{{ message }}</div>
+    {% endif %}
+    <div class="card">
+        <h3>已登记医师名单</h3>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">医师姓名</li>
+            <li class="list-group-item">性别</li>
+            <li class="list-group-item">年龄</li>
+            <li class="list-group-item">卡号</li>
+            <li class="list-group-item">科室</li>
+            <li class="list-group-item">职称</li>
+            <li class="list-group-item">操作</li>
+        </ul>
+        {% for item in data %}
+            <div class="list-inline">
+                <li class="list-inline-item">------{{ item[1] }}------</li>
+                <li class="list-inline-item">----{{ item[2] }}---</li>
+                <li class="list-inline-item">---{{ item[3] }}---</li>
+                <li class="list-inline-item">---{{ item[0] }}---</li>
+                <li class="list-inline-item">--{{ item[4] }}--</li>
+                <li class="list-inline-item">--{{ item[5] }}</li>
+                <li class="list-inline-item">
+                    <form style="display: inline-block" method="post" action="{{ url_for('doctor_delete') }}">
+                        <button type="submit" class="btn btn-outline-primary" name="doctor_id" value="{{ item[0] }}">删除
+                        </button>
+                    </form>
+                </li>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主界面</a></p>
+</div>
+</body>
+</html>

@@ -465,6 +465,40 @@ def doctor_delete():
             mesage = '删除失败'
     return render_template('doctor_delete.html', data = result, mesage = mesage)
 
+@app.route('/doctor_alter', methods=['POST', 'GET'])
+def doctor_alter():
+    mesage1 = ''
+    mesage2 = ''
+    result = ''
+    if request.method == 'POST' and 'doctor_id' in request.form:
+        doctor_id = request.form['doctor_id']
+        cursor.execute('select * from doctor_info', doctor_id)
+        result = cursor.fetchone()
+
+        if not result:
+            mesage1 = '查询失败'
+        else:
+            mesage1 = '查询成功'
+
+    if request.method == 'POST' and 'doctor_name' in request.form and 'sex' in request.form and 'age' in request.form:
+        doctor_id = request.form['doctor_id']
+        doctor_name = request.form['doctor_name']
+        sex = request.form['sex']
+        age = request.form['age']
+        department = request.form['department']
+        title = request.form['title']
+
+        cursor.execute(
+            'update doctor_info set doctor_name=%s , sex=%s, age=%s, department=%s , title=%s where doctor_id=%s',
+            (doctor_name,sex,age,department,title,doctor_id))
+        db.commit()
+        mesage2 = '修改成功'
+    return render_template('doctor_alter.html', data=result , mesage1 = mesage1 ,mesage2=mesage2)
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
