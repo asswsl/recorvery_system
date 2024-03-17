@@ -6,6 +6,7 @@ from datetime import date
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
+db = pymysql.connect(host="localhost", user="root", password="ys124126", database="recorvery_system",
                      charset="utf8")
 cursor = db.cursor()
 
@@ -181,8 +182,9 @@ def delete_patient():
         # 点击后刷新表格
         cursor.execute('select * from patient_info')
         result = cursor.fetchall()
-        # resu = cursor.execute('select * from patient_info where patient_id=%s', del_id)
-        if not result:
+        cursor.execute('select * from patient_info where patient_id=%s', del_id)
+        test = cursor.fetchall()
+        if not test:
             mesage = '删除成功'
         else:
             mesage = '删除失败'
@@ -446,6 +448,7 @@ def doctor_add():
     return render_template('doctor_add.html', mesage=mesage)
 
 
+# 删除医师信息
 @app.route('/doctor_delete', methods=['POST', 'GET'])
 def doctor_delete():
     mesage = ''
@@ -458,14 +461,16 @@ def doctor_delete():
         # 刷新
         cursor.execute('select * from doctor_info')
         result = cursor.fetchall()
-
-        if not result:
+        cursor.execute('select * from doctor_info where doctor_id=%s', doctor_id)
+        test = cursor.fetchall()
+        if not test:
             mesage = '删除成功'
         else:
             mesage = '删除失败'
     return render_template('doctor_delete.html', data=result, mesage=mesage)
 
 
+# 修改医师信息
 @app.route('/doctor_alter', methods=['POST', 'GET'])
 def doctor_alter():
     mesage1 = ''
@@ -495,6 +500,127 @@ def doctor_alter():
         db.commit()
         mesage2 = '修改成功'
     return render_template('doctor_alter.html', data=result, mesage1=mesage1, mesage2=mesage2)
+
+
+# 管理员页面--治疗项目
+@app.route('/treatment_info', methods=['POST', 'GET'])
+def treatment_info():
+    cursor.execute('select * from treatment_info')
+    result = cursor.fetchall()
+    return render_template('treatment_info.html', data=result)
+
+
+# 查询治疗项目信息
+@app.route('/treatment_search', methods=['POST', 'GET'])
+def treatment_search():
+    mesage = ''
+    search_result = ''
+    fields = ['treat_id', 'treat_name', 'treat_type', 'treat_numbers']
+    if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
+        kind = request.form['kind']
+        data = request.form['data']
+        if kind not in fields:
+            mesage = '错误查询'
+        elif not data:
+            mesage = '请填写查询数据'
+        else:
+            cursor.execute('select * from treatment_info where %s=%%s' % kind, (data,))
+            search_result = cursor.fetchall()
+            if not search_result:
+                mesage = '不存在信息'
+            else:
+                mesage = '查询成功'
+            # print(result)\
+    # 在查询后，总列表仍能显示
+    cursor.execute('select * from treatment_info')
+    result = cursor.fetchall()
+    return render_template('treatment_info.html', data=result, search_data=search_result, mesage=mesage)
+
+
+# 增加治疗项目
+@app.route('/treatment_add', methods=['POST', 'GET'])
+def treatment_add():
+    mesage = ''
+    if request.method == 'POST':
+        # 检查是否所有必需的字段都在表单中
+        required_fields = ['treat_id', 'treat_name', 'treat_type', 'treat_numbers']
+        if all(field in request.form for field in required_fields):
+            treat_id = request.form['treat_id']
+            treat_name = request.form['treat_name']
+            treat_type = request.form['treat_type']
+            treat_numbers = request.form['treat_numbers']
+            # 检查项目是否已存在
+            cursor.execute(
+                'SELECT * FROM treatment_info WHERE treat_id = %s AND treat_name = %s AND treat_type = %s AND treat_numbers = %s',
+                (treat_id, treat_name, treat_type, treat_numbers))
+            treatment = cursor.fetchone()
+            # 检查医生编号是否已存在
+            cursor.execute('SELECT * FROM treatment_info WHERE treat_id = %s', (treat_id,))
+            id_exists = cursor.fetchone()
+            if treatment:
+                mesage = '治疗项目已存在！'
+            elif id_exists:
+                mesage = '项目编号不能相同'
+            else:
+                # 将新医生插入数据库
+                cursor.execute('INSERT INTO treatment_info VALUES (%s, %s, %s, %s)',
+                               (treat_id, treat_name, treat_type, treat_numbers))
+                db.commit()
+                mesage = '增加成功'
+        else:
+            # 如果没有提供所有字段
+            mesage = '请全部填写'
+    return render_template('treatment_add.html', mesage=mesage)
+
+
+@app.route('/treatment_delete', methods=['POST', 'GET'])
+def treatment_delete():
+    mesage = ''
+    cursor.execute('select * from treatment_info')
+    result = cursor.fetchall()
+    if request.method == 'POST' and 'treat_id' in request.form:
+        treat_id = request.form['treat_id']
+        cursor.execute('delete from treatment_info where treat_id = %s ', treat_id)
+        db.commit()
+        # 刷新
+        cursor.execute('select * from treatment_info')
+        result = cursor.fetchall()
+        cursor.execute('select * from treatment_info where treat_id=%s', treat_id)
+        test = cursor.fetchall()
+        if not test:
+            mesage = '删除成功'
+        else:
+            mesage = '删除失败'
+    return render_template('treatment_delete.html', data=result, mesage=mesage)
+
+
+# 修改治疗项目信息
+@app.route('/treatment_alter', methods=['POST', 'GET'])
+def treatment_alter():
+    mesage1 = ''
+    mesage2 = ''
+    result = ''
+    if request.method == 'POST' and 'treat_id' in request.form:
+        treat_id = request.form['treat_id']
+        cursor.execute('select * from treatment_info where treat_id=%s', (treat_id))
+        result = cursor.fetchone()
+
+        if not result:
+            mesage1 = '查询失败'
+        else:
+            mesage1 = '查询成功'
+
+    if request.method == 'POST' and 'treat_id' in request.form and 'treat_name' in request.form and 'treat_type' in request.form and 'treat_numbers' in request.form:
+        treat_id = request.form['treat_id']
+        treat_name = request.form['treat_name']
+        treat_type = request.form['treat_type']
+        treat_numbers = request.form['treat_numbers']
+        cursor.execute(
+            'update treatment_info set treat_name=%s , treat_type=%s, treat_numbers=%s where treat_id=%s',
+            (treat_name, treat_type, treat_numbers, treat_id))
+        db.commit()
+        mesage2 = '修改成功'
+    return render_template('treatment_alter.html', data=result, mesage1=mesage1, mesage2=mesage2)
 
 
 if __name__ == '__main__':

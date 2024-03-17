@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <h2>修改患者信息</h2>
+    <form action="{{ url_for('treatment_alter') }}" method="post">
+        {% if mesage1 is defined and mesage1 %}
+            <div class="alert alert-warning">{{ mesage1 }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="treat_id">输入查询项目编号:</label>
+            <input type="text" id="treat_id" class="form-control" name="treat_id" placeholder="请输入项目编号">
+        </div>
+        <button type="submit" class="btn btn-primary">查询</button>
+    </form>
+    <form action="{{ url_for('treatment_alter') }}" method="post">
+        {% if mesage2 is defined and mesage2 %}
+            <div class="alert alert-warning">{{ mesage2 }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="treat_id">项目编号:</label>
+            <input type="text" class="form-control" id="treat_id" name="treat_id" placeholder="请输入项目编号"
+                   value="{{ data[0] }}">
+        </div>
+        <div class="form-group">
+            <label for="treat_name">治疗项目:</label>
+            <input type="text" class="form-control" id="treat_name" name="treat_name" placeholder="请输入治疗项目"
+                   value="{{ data[1] }}">
+        </div>
+            <div class="form-group">
+            <label for="treat_type">项目类型:</label>
+            <input type="text" class="form-control" id="treat_type" name="treat_type" placeholder="请输入项目类型"
+                   value="{{ data[2] }}">
+        </div>
+            <div class="form-group">
+            <label for="treat_numbers">治疗次数:</label>
+            <input type="text" class="form-control" id="treat_numbers" name="treat_numbers" placeholder="请输入治疗次数"
+                   value="{{ data[3] }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">修改</button>
+        <p class="bottom">修改完毕？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主菜单</a></p>
+    </form>
+</div>
+</body>
+</html>

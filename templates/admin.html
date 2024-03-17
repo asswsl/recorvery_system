@@ -30,21 +30,12 @@
     <h5 class="card-header">治疗项目</h5>
     <div class="card-body">
         <h5 class="card-title">点击选择不同功能</h5>
-        <a href="#" class="btn btn-primary">查看</a>
-        <a href="#" class="btn btn-primary">新增</a>
-        <a href="#" class="btn btn-primary">删除</a>
-        <a href="#" class="btn btn-primary">修改</a>
+        <a href="{{ url_for('treatment_info') }}" class="btn btn-primary">查看</a>
+        <a href="{{ url_for('treatment_add') }}" class="btn btn-primary">新增</a>
+        <a href="{{ url_for('treatment_delete') }}" class="btn btn-primary">删除</a>
+        <a href="{{ url_for('treatment_alter') }}" class="btn btn-primary">修改</a>
     </div>
 </div>
-<div class="card">
-    <h5 class="card-header">治疗次数</h5>
-    <div class="card-body">
-        <h5 class="card-title">点击选择不同功能</h5>
-        <a href="#" class="btn btn-primary">查看</a>
-        <a href="#" class="btn btn-primary">新增</a>
-        <a href="#" class="btn btn-primary">删除</a>
-        <a href="#" class="btn btn-primary">修改</a>
-    </div>
 </div>
 </body>
 </html>
