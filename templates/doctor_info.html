@@ -26,7 +26,7 @@
             <li class="list-group-item">{{ item[5] }}</li>
         </ul>
     {% endfor %}
-    <form method="post" action="{{ url_for('doctor_search') }}">
+    <form method="post" action="{{ url_for('admin.doctor_search') }}">
         <h2 class="text-center">选择查询方式</h2>
         {% if mesage is defined and mesage %}
             <div class="alert alert-warning">{{ mesage }}</div>
@@ -59,7 +59,7 @@
             <li class="list-group-item">{{ item[5] }}</li>
         </ul>
     {% endfor %}
-    <p class="bottom">浏览完毕？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主菜单</a></p>
+    <p class="bottom">浏览完毕？<a class="bottom" href="{{ url_for('admin.admin') }}">点击此处返回主菜单</a></p>
 </div>
 </body>
 </html>

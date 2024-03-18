@@ -36,7 +36,7 @@
                 <li class="list-inline-item">--{{ item[4] }}--</li>
                 <li class="list-inline-item">--{{ item[5] }}</li>
                 <li class="list-inline-item">
-                    <form style="display: inline-block" method="post" action="{{ url_for('doctor_delete') }}">
+                    <form style="display: inline-block" method="post" action="{{ url_for('admin.doctor_delete') }}">
                         <button type="submit" class="btn btn-outline-primary" name="doctor_id" value="{{ item[0] }}">删除
                         </button>
                     </form>
@@ -45,7 +45,7 @@
             <br>
         {% endfor %}
     </div>
-    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主界面</a></p>
+    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('admin.admin') }}">点击此处返回主界面</a></p>
 </div>
 </body>
 </html>

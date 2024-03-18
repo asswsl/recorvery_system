@@ -19,24 +19,24 @@
     <div class="card">
         <h3>已登记患者名单</h3>
         <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">卡号</li>
             <li class="list-group-item">患者姓名</li>
             <li class="list-group-item">性别</li>
             <li class="list-group-item">年龄</li>
-            <li class="list-group-item">卡号</li>
             <li class="list-group-item">登记日期</li>
             <li class="list-group-item">开方日期</li>
             <li class="list-group-item">操作</li>
         </ul>
         {% for item in data %}
             <div class="list-inline">
+                <li class="list-inline-item">---{{ item[0] }}---</li>
                 <li class="list-inline-item">------{{ item[1] }}------</li>
                 <li class="list-inline-item">----{{ item[2] }}---</li>
                 <li class="list-inline-item">---{{ item[3] }}---</li>
-                <li class="list-inline-item">---{{ item[0] }}---</li>
                 <li class="list-inline-item">--{{ item[5] }}--</li>
                 <li class="list-inline-item">--{{ item[6] }}</li>
                 <li class="list-inline-item">
-                    <form style="display: inline-block" method="post" action="{{ url_for('delete_patient') }}">
+                    <form style="display: inline-block" method="post" action="{{ url_for('nurse.delete_patient') }}">
                         <button type="submit" class="btn btn-outline-primary" name="id" value="{{ item[0] }}">删除
                         </button>
                     </form>
@@ -45,7 +45,7 @@
             <br>
         {% endfor %}
     </div>
-    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主界面</a></p>
+    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('nurse.check') }}">点击此处返回主界面</a></p>
 </div>
 </body>
 </html>

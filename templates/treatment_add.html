@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h2>新增治疗项目</h2>
-    <form action="{{ url_for('treatment_add') }}" method="post">
+    <form action="{{ url_for('admin.treatment_add') }}" method="post">
         {% if mesage is defined and mesage %}
             <div class="alert alert-warning">{{ mesage }}</div>
         {% endif %}
@@ -30,7 +30,7 @@
             <input type="text" class="form-control" id="treat_numbers" name="treat_numbers" placeholder="请输入治疗次数">
         </div>
         <button type="submit" class="btn btn-primary">增加治疗项目</button>
-        <p class="bottom">填写完毕？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主菜单</a></p>
+        <p class="bottom">填写完毕？<a class="bottom" href="{{ url_for('admin.admin') }}">点击此处返回主菜单</a></p>
     </form>
 </div>
 </body>

@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <h2>修改患者信息</h2>
-    <form action="{{ url_for('treatment_alter') }}" method="post">
+    <form action="{{ url_for('admin.treatment_alter') }}" method="post">
         {% if mesage1 is defined and mesage1 %}
             <div class="alert alert-warning">{{ mesage1 }}</div>
         {% endif %}
@@ -18,7 +18,7 @@
         </div>
         <button type="submit" class="btn btn-primary">查询</button>
     </form>
-    <form action="{{ url_for('treatment_alter') }}" method="post">
+    <form action="{{ url_for('admin.treatment_alter') }}" method="post">
         {% if mesage2 is defined and mesage2 %}
             <div class="alert alert-warning">{{ mesage2 }}</div>
         {% endif %}
@@ -44,7 +44,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">修改</button>
-        <p class="bottom">修改完毕？<a class="bottom" href="{{ url_for('admin') }}">点击此处返回主菜单</a></p>
+        <p class="bottom">修改完毕？<a class="bottom" href="{{ url_for('admin.admin') }}">点击此处返回主菜单</a></p>
     </form>
 </div>
 </body>

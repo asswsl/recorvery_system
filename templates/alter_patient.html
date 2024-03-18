@@ -8,7 +8,7 @@
 <body>
 <div class="container">
     <h2>修改患者信息</h2>
-    <form action="{{ url_for('alter_patient') }}" method="post">
+    <form action="{{ url_for('nurse.alter_patient') }}" method="post">
         {% if mesage1 is defined and mesage1 %}
             <div class="alert alert-warning">{{ mesage1 }}</div>
         {% endif %}
@@ -18,10 +18,15 @@
         </div>
         <button type="submit" class="btn btn-primary">查询</button>
     </form>
-    <form action="{{ url_for('alter_patient') }}" method="post">
+    <form action="{{ url_for('nurse.alter_patient') }}" method="post">
         {% if mesage2 is defined and mesage2 %}
             <div class="alert alert-warning">{{ mesage2 }}</div>
         {% endif %}
+        <div class="form-group">
+            <label for="patient_id">卡号:</label>
+            <input type="text" class="form-control" id="patient_id" name="patient_id" placeholder="请输入卡号"
+                   value="{{ data[0] }}">
+        </div>
         <div class="form-group">
             <label for="patient_name">患者姓名:</label>
             <input type="text" class="form-control" id="patient_name" name="patient_name" placeholder="请输入姓名"
@@ -39,11 +44,6 @@
             <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄" value="{{ data[3] }}">
         </div>
         <div class="form-group">
-            <label for="patient_id">卡号:</label>
-            <input type="text" class="form-control" id="patient_id" name="patient_id" placeholder="请输入卡号"
-                   value="{{ data[0] }}">
-        </div>
-        <div class="form-group">
             <label for="start_time">挂号时间:</label>
             <input type="date" class="form-control" id="start_time" name="start_time" placeholder="请选择挂号时间"
                    value="{{ data[5] }}">
@@ -54,7 +54,7 @@
                    value="{{ data[6] }}">
         </div>
         <button type="submit" class="btn btn-primary">修改</button>
-        <p class="bottom">修改完毕？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主菜单</a></p>
+        <p class="bottom">修改完毕？<a class="bottom" href="{{ url_for('nurse.check') }}">点击此处返回主菜单</a></p>
     </form>
 </div>
 </body>
