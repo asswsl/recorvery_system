@@ -19,13 +19,10 @@
     <div class="card">
         <h3>已登记医师名单</h3>
         <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">卡号</li>
-            <li class="list-group-item">医师姓名</li>
-            <li class="list-group-item">性别</li>
-            <li class="list-group-item">年龄</li>
-            <li class="list-group-item">科室</li>
-            <li class="list-group-item">职称</li>
-            <li class="list-group-item">操作</li>
+            <li class="list-group-item">项目编号</li>
+            <li class="list-group-item">治疗项目</li>
+            <li class="list-group-item">项目类型</li>
+            <li class="list-group-item">治疗次数</li>
         </ul>
         {% for item in data %}
             <div class="list-inline">
@@ -33,11 +30,9 @@
                 <li class="list-inline-item">------{{ item[1] }}------</li>
                 <li class="list-inline-item">----{{ item[2] }}---</li>
                 <li class="list-inline-item">---{{ item[3] }}---</li>
-                <li class="list-inline-item">--{{ item[4] }}--</li>
-                <li class="list-inline-item">--{{ item[5] }}</li>
                 <li class="list-inline-item">
-                    <form style="display: inline-block" method="post" action="{{ url_for('admin.doctor_delete') }}">
-                        <button type="submit" class="btn btn-outline-primary" name="doctor_id" value="{{ item[0] }}">删除
+                    <form style="display: inline-block" method="post" action="{{ url_for('admin.treatment_delete') }}">
+                        <button type="submit" class="btn btn-outline-primary" name="treat_id" value="{{ item[0] }}">删除
                         </button>
                     </form>
                 </li>

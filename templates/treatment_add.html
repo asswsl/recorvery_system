@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+
+</head>
+<body>
+<div class="container">
+    <h2>新增治疗项目</h2>
+    <form action="{{ url_for('admin.treatment_add') }}" method="post">
+        {% if mesage is defined and mesage %}
+            <div class="alert alert-warning">{{ mesage }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="treat_id">项目编号:</label>
+            <input type="text" class="form-control" id="treat_id" name="treat_id" placeholder="请输入项目编号">
+        </div>
+        <div class="form-group">
+            <label for="treat_name">治疗项目:</label>
+            <input type="text" class="form-control" id="treat_name" name="treat_name" placeholder="请输入治疗项目">
+        </div>
+        <div class="form-group">
+            <label for="treat_type">治疗类型:</label>
+            <input type="text" class="form-control" id="treat_type" name="treat_type" placeholder="请输入治疗类型">
+        </div>
+        <div class="form-group">
+            <label for="treat_numbers">治疗次数:</label>
+            <input type="text" class="form-control" id="treat_numbers" name="treat_numbers" placeholder="请输入治疗次数">
+        </div>
+        <button type="submit" class="btn btn-primary">增加治疗项目</button>
+        <p class="bottom">填写完毕？<a class="bottom" href="{{ url_for('admin.admin') }}">点击此处返回主菜单</a></p>
+    </form>
+</div>
+</body>
+</html>

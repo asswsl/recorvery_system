@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container">
-    <form method="post" action="{{ url_for('search_treat') }}">
+    <form method="post" action="{{ url_for('nurse.search_treat') }}">
         {% if mesage is defined and mesage %}
             <div class="alert alert-warning">{{ mesage }}</div>
         {% endif %}
@@ -49,7 +49,7 @@
         </tr>
         <br>
     {% endfor %}
-    <p class="bottom">查询结束？<a class="bottom" href="{{ url_for('check') }}">点击此处返回主界面</a></p>
+    <p class="bottom">查询结束？<a class="bottom" href="{{ url_for('nurse.check') }}">点击此处返回主界面</a></p>
 </div>
 
 
