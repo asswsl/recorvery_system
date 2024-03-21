@@ -5,24 +5,18 @@ from nurse import nurse_blue
 
 
 # 护士站首页
-@nurse_blue.route('/check')
-def check():
+@nurse_blue.route('/nurse')
+def nurse():
     cursor.execute('select * from patient_info')
     result = cursor.fetchall()
-    cursor.execute('select * from treat_info')
-    check_result = cursor.fetchall()
-    return render_template('check.html', data=result, check_data=check_result)
+    return render_template('nurse.html', data=result)
 
 
-# 刷新
-@nurse_blue.route('/flush', methods=['POST', 'GET'])
-def flush():
-    cursor.execute('select * from patient_info')
-    result = cursor.fetchall()
+@nurse_blue.route('/treat_info', methods=['POST', 'GET'])
+def treat_info():
     cursor.execute('select * from treat_info')
     check_result = cursor.fetchall()
-    # print(check_result)
-    return render_template('check.html', data=result, check_data=check_result)
+    return render_template('treat_info.html', data=check_result)
 
 
 # 增加患者信息
@@ -77,7 +71,7 @@ def search_patient():
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
-            # print(result)
+    # print(result)
     return render_template('search_patient.html', data=result, mesage=mesage)
 
 
@@ -183,7 +177,7 @@ def add_treat():
             mesage = '请全部填写!'
         else:
             cursor.execute('insert into treat_info values (%s,%s,%s,%s,%s,%s,%s,%s)',
-                           (patient_id, patient_name, sex, age, doctor, treatments, total_numbers, None))
+                           (patient_id, patient_name, sex, age, doctor, treatments, total_numbers, 0))
             db.commit()
             mesage = '增加成功!'
     elif request.method == 'POST':
