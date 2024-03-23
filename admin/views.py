@@ -14,7 +14,7 @@ def admin():
 # 设备信息浏览
 @admin_blue.route('/device_info', methods=['POST', 'GET'])
 def device_info():
-    cursor.execute('select * from device_info where end_time is null')
+    cursor.execute('select * from device_info')
     result = cursor.fetchall()
     return render_template('device_info.html', data=result)
 
@@ -23,7 +23,7 @@ def device_info():
 @admin_blue.route('/device_search', methods=['POST', 'GET'])
 def device_search():
     mesage = ''
-    search_result = ''
+    result = ''
     fields = ['device_id', 'device_name', 'device_type', 'device_own', 'start_time', 'end_time']
     if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
         kind = request.form['kind']
@@ -34,16 +34,13 @@ def device_search():
             mesage = '请填写查询数据'
         else:
             cursor.execute('select * from device_info where %s=%%s' % kind, (data,))
-            search_result = cursor.fetchall()
-            if not search_result:
+            result = cursor.fetchall()
+            if not result:
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
             # print(result)
-    # 在查询后，总列表仍能显示
-    cursor.execute('select * from device_info where end_time is null')
-    result = cursor.fetchall()
-    return render_template('device_info.html', data=result, search_data=search_result, mesage=mesage)
+    return render_template('device_search.html', data=result, mesage=mesage)
 
 
 # 新增设备信息
@@ -112,7 +109,7 @@ def doctor_info():
 @admin_blue.route('/doctor_search', methods=['POST', 'GET'])
 def doctor_search():
     mesage = ''
-    search_result = ''
+    result = ''
     fields = ['doctor_id', 'doctor_name', 'sex', 'age', 'department', 'title']
     if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
         kind = request.form['kind']
@@ -123,16 +120,13 @@ def doctor_search():
             mesage = '请填写查询数据'
         else:
             cursor.execute('select * from doctor_info where %s=%%s' % kind, (data,))
-            search_result = cursor.fetchall()
-            if not search_result:
+            result = cursor.fetchall()
+            if not result:
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
             # print(result)\
-    # 在查询后，总列表仍能显示
-    cursor.execute('select * from doctor_info')
-    result = cursor.fetchall()
-    return render_template('doctor_info.html', data=result, search_data=search_result, mesage=mesage)
+    return render_template('doctor_search.html', data=result, mesage=mesage)
 
 
 # 增加医师
@@ -240,7 +234,7 @@ def treatment_info():
 @admin_blue.route('/treatment_search', methods=['POST', 'GET'])
 def treatment_search():
     mesage = ''
-    search_result = ''
+    result = ''
     fields = ['treat_id', 'treat_name', 'treat_type', 'treat_numbers']
     if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
         kind = request.form['kind']
@@ -251,16 +245,13 @@ def treatment_search():
             mesage = '请填写查询数据'
         else:
             cursor.execute('select * from treatment_info where %s=%%s' % kind, (data,))
-            search_result = cursor.fetchall()
-            if not search_result:
+            result = cursor.fetchall()
+            if not result:
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
             # print(result)\
-    # 在查询后，总列表仍能显示
-    cursor.execute('select * from treatment_info')
-    result = cursor.fetchall()
-    return render_template('treatment_info.html', data=result, search_data=search_result, mesage=mesage)
+    return render_template('treatment_search.html', data=result, mesage=mesage)
 
 
 # 增加治疗项目
