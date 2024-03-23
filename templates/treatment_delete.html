@@ -1,46 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../static/bootstrap.css">
-    <style>
-        .list-inline-item {
-            display: inline-block;
-        }
-    </style>
+    <meta charset="utf-8">
+    <title>管理员-删除治疗项目</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//cdn.staticfile.org/layui/2.9.7/css/layui.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <h2 class="text-center">删除界面</h2>
-    {% if mesage is defined and mesage %}
-        <div class="alert alert-warning">{{ mesage }}</div>
-    {% endif %}
-    <div class="card">
-        <h3>已登记医师名单</h3>
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">项目编号</li>
-            <li class="list-group-item">治疗项目</li>
-            <li class="list-group-item">项目类型</li>
-            <li class="list-group-item">治疗次数</li>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">管理员</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+                <a href="javascript:;">
+                    <img src="//unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
+                    {{ session.name }}
+                </a>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a href="{{ url_for('logout') }}">退出</a>
+            </li>
         </ul>
-        {% for item in data %}
-            <div class="list-inline">
-                <li class="list-inline-item">---{{ item[0] }}---</li>
-                <li class="list-inline-item">------{{ item[1] }}------</li>
-                <li class="list-inline-item">----{{ item[2] }}---</li>
-                <li class="list-inline-item">---{{ item[3] }}---</li>
-                <li class="list-inline-item">
-                    <form style="display: inline-block" method="post" action="{{ url_for('admin.treatment_delete') }}">
-                        <button type="submit" class="btn btn-outline-primary" name="treat_id" value="{{ item[0] }}">删除
-                        </button>
-                    </form>
-                </li>
-            </div>
-            <br>
-        {% endfor %}
     </div>
-    <p class="bottom">删除结束？<a class="bottom" href="{{ url_for('admin.admin') }}">点击此处返回主界面</a></p>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">器材信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{{ url_for('admin.device_info') }}">浏览器材信息</a></dd>
+                        <dd><a href="{{ url_for('admin.device_search') }}">查找器材信息</a></dd>
+                        <dd><a href="{{ url_for('admin.device_add') }}">新增器材信息</a></dd>
+                        <dd><a href="{{ url_for('admin.device_delete') }}">报废器材</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">医生信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{{ url_for('admin.doctor_info') }}">浏览医生信息</a></dd>
+                        <dd><a href="{{ url_for('admin.doctor_search') }}">查找医生信息</a></dd>
+                        <dd><a href="{{ url_for('admin.doctor_add') }}">新增医生信息</a></dd>
+                        <dd><a href="{{ url_for('admin.doctor_delete') }}">删除医生信息</a></dd>
+                        <dd><a href="{{ url_for('admin.doctor_alter') }}">修改医生信息</a></dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">治疗项目信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{{ url_for('admin.treatment_info') }}">浏览治疗项目信息</a></dd>
+                        <dd><a href="{{ url_for('admin.treatment_search') }}">查找治疗项目信息</a></dd>
+                        <dd><a href="{{ url_for('admin.treatment_add') }}">新增治疗项目信息</a></dd>
+                        <dd><a href="{{ url_for('admin.treatment_delete') }}">删除治疗项目信息</a></dd>
+                        <dd><a href="{{ url_for('admin.treatment_alter') }}">修改治疗项目信息</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <blockquote class="layui-elem-quote layui-text">
+                                <table class="layui-table" id="ID-table-demo-init">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:80, sort: true}">项目编号</th>
+                        <th lay-data="{field:'username', width:80}">治疗项目名称</th>
+                        <th lay-data="{field:'sex', width:80, sort: true}">项目类型</th>
+                        <th lay-data="{field:'city'}">治疗次数</th>
+                        <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in data %}
+                        <tr>
+                            <th lay-data="{field:'id', width:80, sort: true}">{{ item[0] }}</th>
+                            <th lay-data="{field:'username', width:80}">{{ item[1] }}</th>
+                            <th lay-data="{field:'sex', width:80, sort: true}">{{ item[2] }}</th>
+                            <th lay-data="{field:'city'}">{{ item[3] }}</th>
+                            <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
+                                <form action="{{ url_for('admin.treatment_delete') }}" method="post">
+                                    <button class="layui-btn layui-bg-red" name="treat_id" value="{{ item[0] }}">删除</button>
+                                </form>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </blockquote>
+
+        </div>
+    </div>
 </div>
+
+<script src="//cdn.staticfile.org/layui/2.9.7/layui.js"></script>
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        var util = layui.util;
+        var $ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            menuLeft: function (othis) { // 左侧菜单事件
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            },
+        });
+    });
+</script>
 </body>
 </html>
