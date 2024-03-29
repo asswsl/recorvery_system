@@ -33,7 +33,9 @@ CREATE TABLE `doctor_info`  (
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" object-ref="consoles/Connection" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" />
