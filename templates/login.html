@@ -18,57 +18,74 @@
             margin: 0; /* 移除默认边距 */
             padding: 0; /* 移除默认内边距 */
         }
+        .login-wrap {
+            position: absolute;
+            width: 450px;
+            height: 370px;
+            background-color: #fff;
+            border-radius: 10px;
+            left: 50%;
+            top: 35%;
+            transform: translate(-50%, -50%);
+}
+        body {
+    background-color: #e5ffee;
+}
+a:hover {
+  color: blue; /* 设置鼠标悬浮时的颜色为蓝色 */
+  text-decoration: underline; /* 添加下划线 */
+}
     </style>
 </head>
 <body>
-
-<div class="layui-container" center-vertically>
-    <h2 class="layui-header">康复系统用户登录</h2>
-    <form class="layui-form" action="{{ url_for('login') }}" method="post">
-        {% if mesage is defined and mesage %}
-            <div class="layui-alert">{{ mesage }}</div>
-        {% endif %}
-        <div class="layui-form-item">
-            <label class="layui-form-label" for="email">邮箱:</label>
-            <div class="layui-input-block">
-                <input type="email" class="layui-input" id="email" name="email" placeholder="请输入邮箱" required>
+<div class="layui-card">
+    <div class="layui-container login-wrap" center-vertically>
+        <h2 class="layui-header center">康复系统用户登录</h2>
+        <form class="layui-form" action="{{ url_for('login') }}" method="post">
+            {% if mesage is defined and mesage %}
+            <div class="layui-alert" style="color:red">{{ mesage }}</div>
+            {% endif %}
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="email">邮箱:</label>
+                <div class="layui-input-block">
+                    <input type="email" class="layui-input" id="email" name="email" placeholder="请输入邮箱" required>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" for="pwd">密码:</label>
-            <div class="layui-input-block">
-                <input type="password" class="layui-input" id="password" name="password" placeholder="请输入密码" required>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="pwd">密码:</label>
+                <div class="layui-input-block">
+                    <input type="password" class="layui-input" id="password" name="password" placeholder="请输入密码"
+                           required>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" for="rol">选择角色:</label>
-            <div class="layui-input-block">
-                <select name="rol" required>
-                    <option value="">请选择角色</option>
-                    <option value="nurse">护士站</option>
-                    <option value="doctor">医生站</option>
-                    <option value="therapy">治疗站</option>
-                    <option value="admin">管理员</option>
-                </select>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="rol">选择角色:</label>
+                <div class="layui-input-block">
+                    <select name="rol" required>
+                        <option value="护士站">护士站</option>
+                        <option value="医生站">医生站</option>
+                        <option value="治疗站">治疗站</option>
+                        <option value="管理员">管理员</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label" for="depart">选择科室:</label>
-            <div class="layui-input-block">
-                <select name="depart" required>
-                    <option value="">请选择科室</option>
-                    <option value="tcm">中医科</option>
-                    <option value="medicine">内科</option>
-                    <option value="surgery">外科</option>
-                    <option value="orthopedics">骨科</option>
-                </select>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="depart">选择科室:</label>
+                <div class="layui-input-block">
+                    <select name="depart" required>
+                        <option value="中医科">中医科</option>
+                        <option value="内科">内科</option>
+                        <option value="外科">外科</option>
+                        <option value="骨科">骨科</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item center">
-            <button type="submit" class="layui-btn layui-btn-primary">登录</button>
-        </div>
-        <p>没有账户？<a href="{{ url_for('register') }}">请点击此处注册</a></p>
-    </form>
+            <div class="layui-form-item center">
+                <button type="submit" class="layui-btn layui-btn-primary">登录</button>
+            </div>
+            <p>没有账户？<a href="{{ url_for('register') }}">请点击此处注册</a></p>
+        </form>
+    </div>
 </div>
 
 <!-- 引入Layui的JavaScript -->

@@ -1,51 +1,101 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>User Registeration Form</title>
-    <link rel="stylesheet" href="../static/bootstrap.css">
+    <title>康复系统用户注册</title>
+    <!-- 引入Layui的CSS -->
+    <link rel="stylesheet" href="//cdn.staticfile.org/layui/2.9.7/css/layui.css">
+    <style>
+        .center {
+            text-align: center;
+        }
+        .center-vertically{
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            height: 100vh; /* 视口高度 */
+            margin: 0; /* 移除默认边距 */
+            padding: 0; /* 移除默认内边距 */
+        }
+        .login-wrap {
+            position: absolute;
+            width: 450px;
+            height: 420px;
+            background-color: #fff;
+            border-radius: 10px;
+            left: 50%;
+            top: 35%;
+            transform: translate(-50%, -50%);
+}
+        body {
+    background-color: #e5ffee;
+}
+        a:hover {
+  color: blue; /* 设置鼠标悬浮时的颜色为蓝色 */
+  text-decoration: underline; /* 添加下划线 */
+}
+
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>康复系统用户注册</h2>
-    <form action="{{ url_for('register') }}" method="post">
-        {% if mesage is defined and mesage %}
-            <div class="alert alert-warning">{{ mesage }}</div>
-        {% endif %}
-        <div class="form-group">
-            <label for="name">姓名:</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" name="name">
-        </div>
-        <div class="form-group">
-            <label for="email">邮箱:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱" name="email">
-        </div>
-        <div class="form-group">
-            <label for="pwd">密码:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" name="pswd">
-        </div>
-        <div class="form-group">
-            <label for="rol">请选择角色:</label>
-            <select class="form-control" name="rol">
-                <option>护士站</option>
-                <option>医生站</option>
-                <option>治疗站</option>
-                <option>管理员</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="depart">请选择科室:</label>
-            <select class="form-control" name="depart">
-                <option>中医科</option>
-                <option>内科</option>
-                <option>外科</option>
-                <option>骨科</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">注册</button>
-        <p class="bottom">已经拥有账户？<a class="bottom" href="{{ url_for('login') }}">点击此处登录</a></p>
-    </form>
+<div class="layui-card">
+    <div class="layui-container login-wrap" center-vertically>
+        <h2 class="layui-header center">康复系统用户注册</h2>
+        <form class="layui-form" action="{{ url_for('register') }}" method="post">
+            {% if mesage is defined and mesage %}
+            <div class="layui-alert" style="color:red">{{ mesage }}</div>
+            {% endif %}
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="name">姓名：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="name" name="name" placeholder="请输入姓名" required>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="email">邮箱:</label>
+                <div class="layui-input-block">
+                    <input type="email" class="layui-input" id="email" name="email" placeholder="请输入邮箱" required>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="password">密码:</label>
+                <div class="layui-input-block">
+                    <input type="password" class="layui-input" id="password" name="password" placeholder="请输入密码"
+                           required>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="rol">选择角色:</label>
+                <div class="layui-input-block">
+                    <select name="rol" required>
+                        <option value="护士站">护士站</option>
+                        <option value="医生站">医生站</option>
+                        <option value="治疗站">治疗站</option>
+                        <option value="管理员">管理员</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="depart">选择科室:</label>
+                <div class="layui-input-block">
+                    <select name="depart" required>
+                        <option value="中医科">中医科</option>
+                        <option value="内科">内科</option>
+                        <option value="外科">外科</option>
+                        <option value="骨科">骨科</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item center">
+                <button type="submit" class="layui-btn layui-btn-primary">注册</button>
+            </div>
+            <p>注册完成？<a href="{{ url_for('login') }}" style="t">请点击此处返回登录</a></p>
+        </form>
+    </div>
 </div>
+
+<!-- 引入Layui的JavaScript -->
+<script src="//cdn.staticfile.org/layui/2.9.7/layui.js"></script>
 </body>
 </html>
-
