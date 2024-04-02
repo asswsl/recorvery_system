@@ -133,7 +133,7 @@ def alter_patient():
 def search_treat():
     mesage = ''
     result = ''
-    fields = ['patient_id', 'patient_name', 'sex', 'age', 'doctor', 'treatments', 'total_numbers', 'used_numbers']
+    fields = ['patient_id', 'patient_name', 'sex', 'age', 'doctor','depart', 'treatments', 'total_numbers', 'used_numbers']
     if request.method == 'POST' and 'data' in request.form and 'kind' in request.form:
         kind = request.form['kind']
         data = request.form['data']
@@ -162,6 +162,7 @@ def add_treat():
         age = request.form['age']
         patient_id = request.form['patient_id']
         doctor = request.form['doctor']
+        depart=request.form['depart']
         treatments = request.form['treatments']
         total_numbers = request.form['total_numbers']
         cursor.execute('select * from treat_info where patient_name=%s and sex=%s and age=%s and patient_id=%s',
@@ -176,8 +177,8 @@ def add_treat():
         elif not patient_name or not age or not patient_id:
             mesage = '请全部填写!'
         else:
-            cursor.execute('insert into treat_info values (%s,%s,%s,%s,%s,%s,%s,%s)',
-                           (patient_id, patient_name, sex, age, doctor, treatments, total_numbers, 0))
+            cursor.execute('insert into treat_info values (%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+                           (patient_id, patient_name, sex, age, doctor,depart, treatments, total_numbers, 0))
             db.commit()
             mesage = '增加成功!'
     elif request.method == 'POST':

@@ -51,7 +51,32 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
-
+                <table class="layui-table" id="ID-table-demo-init">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:80, sort: true}">卡号</th>
+                        <th lay-data="{field:'username', width:80}">患者姓名</th>
+                        <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+                        <th lay-data="{field:'city'}">年龄</th>
+                        <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in data %}
+                        <tr>
+                            <th lay-data="{field:'id', width:80, sort: true}">{{ item[0] }}</th>
+                            <th lay-data="{field:'username', width:80}">{{ item[1] }}</th>
+                            <th lay-data="{field:'sex', width:80, sort: true}">{{ item[2] }}</th>
+                            <th lay-data="{field:'city'}">{{ item[3] }}</th>
+                            <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
+                                <a href="#">查看</a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </blockquote>
 
         </div>

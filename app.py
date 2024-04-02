@@ -4,12 +4,14 @@ from sql import cursor, db
 from datetime import date
 from admin import admin_blue
 from nurse import nurse_blue
+from doctor import doctor_blue
 
 app = Flask(__name__)
 app.secret_key = 'mgm81849117415'
 
 app.register_blueprint(admin_blue, url_prefix='/admin')
 app.register_blueprint(nurse_blue, url_prefix='/nurse')
+app.register_blueprint(doctor_blue,url_prefix='/doctor')
 
 
 @app.route('/')

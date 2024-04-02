@@ -28,9 +28,23 @@
             top: 35%;
             transform: translate(-50%, -50%);
 }
-        body {
-    background-color: #e5ffee;
-}
+.bjimg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 1000px;
+      z-index: -10;
+      zoom: 1;
+      background-color: #fff;
+      background-image: url('static/img/背景图片.jpg') ;
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-position: center 0;
+    }
 a:hover {
   color: blue; /* 设置鼠标悬浮时的颜色为蓝色 */
   text-decoration: underline; /* 添加下划线 */
@@ -38,7 +52,7 @@ a:hover {
     </style>
 </head>
 <body>
-<div class="layui-card">
+<div class="layui-card bjimg">
     <div class="layui-container login-wrap" center-vertically>
         <h2 class="layui-header center">康复系统用户登录</h2>
         <form class="layui-form" action="{{ url_for('login') }}" method="post">
@@ -81,7 +95,7 @@ a:hover {
                 </div>
             </div>
             <div class="layui-form-item center">
-                <button type="submit" class="layui-btn layui-btn-primary">登录</button>
+                <button type="submit" class="layui-btn layui-btn-primary layui-bg-blue">登录</button>
             </div>
             <p>没有账户？<a href="{{ url_for('register') }}">请点击此处注册</a></p>
         </form>

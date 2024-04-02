@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>护士端-浏览治疗项目</title>
+    <title>医生端-主页</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
 <body>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo layui-hide-xs layui-bg-black">护士端</div>
+        <div class="layui-logo layui-hide-xs layui-bg-black">医生端</div>
         <!-- 头部区域（可配合layui 已有的水平导航） -->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
@@ -20,7 +20,7 @@
                     {{ session.name }}
                 </a>
             </li>
-            <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+            <li class="layui-nav-item" lay-unselect>
                 <a href="{{ url_for('logout') }}">退出</a>
             </li>
         </ul>
@@ -30,21 +30,18 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">登记患者信息</a>
+                    <a class="" href="javascript:;">患者信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="{{ url_for('nurse.nurse') }}">浏览患者信息</a></dd>
-                        <dd><a href="{{ url_for('nurse.search_patient') }}">查找患者信息</a></dd>
-                        <dd><a href="{{ url_for('nurse.add_patient') }}">新增患者信息</a></dd>
-                        <dd><a href="{{ url_for('nurse.alter_patient') }}">修改患者信息</a></dd>
-                        <dd><a href="{{ url_for('nurse.delete_patient') }}">删除患者信息</a></dd>
+                        <dd><a href="{{ url_for('doctor.doctor_patientInfo') }}">浏览患者基本信息</a></dd>
+                        <dd><a href="{{ url_for('doctor.doctor_searchPatient') }}">查找患者信息</a></dd>
+                        <dd><a href="#">新增患者信息</a></dd>
+                        <dd><a href="#">修改患者信息</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">登记治疗项目列表</a>
+                    <a href="javascript:;">统计信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="{{ url_for('nurse.treat_info') }}">浏览治疗项目信息</a></dd>
-                        <dd><a href="{{ url_for('nurse.search_treat') }}">查找治疗项目信息</a></dd>
-                        <dd><a href="{{ url_for('nurse.add_treat') }}">新增治疗项目信息</a></dd>
+                        <dd><a href="{{ url_for('doctor.doctor_chart') }}">患者信息统计</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -54,18 +51,44 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
+                <form class="layui-form layui-form-pane" action="{{ url_for('doctor.doctor_searchPatient') }}"
+                      method="post">
+                    {% if mesage is defined and mesage %}
+                        <div style="color: red">{{ mesage }}</div>
+                    {% endif %}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">查询方式</label>
+                        <div class="layui-input-inline">
+                            <select name="kind" lay-filter="bingli">
+                                <option selected name="kind" value="patient_id">病人卡号</option>
+                                <option name="kind" value="patient_name">姓名</option>
+                                <option name="kind" value="sex">性别</option>
+                                <option name="kind" value="age">年龄</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">查询数据</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="data" autocomplete="off" placeholder="请输入查询数据"
+                                   lay-verify="required"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" lay-submit>提交</button>
+                    </div>
+                </form>
                 <table class="layui-table" id="ID-table-demo-init">
                     <thead>
                     <tr>
-                        <th lay-data="{field:'id', width:80, sort: true}">卡号</th>
-                        <th lay-data="{field:'username', width:80}">患者姓名</th>
+                        <th lay-data="{field:'id', width:80, sort: true}">病人卡号</th>
+                        <th lay-data="{field:'username', width:80}">姓名</th>
                         <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
                         <th lay-data="{field:'city'}">年龄</th>
-                        <th lay-data="{field:'sign'}">主治医生</th>
-                        <th lay-data="{field:'depart'}">预约部门</th>
-                        <th lay-data="{field:'experience', sort: true}">治疗项目</th>
-                        <th lay-data="{field:'score', sort: true}">总治疗次数</th>
-                        <th lay-data="{field:'classify'}">已治疗次数</th>
+                        <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
+                            操作
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,11 +98,9 @@
                             <th lay-data="{field:'username', width:80}">{{ item[1] }}</th>
                             <th lay-data="{field:'sex', width:80, sort: true}">{{ item[2] }}</th>
                             <th lay-data="{field:'city'}">{{ item[3] }}</th>
-                            <th lay-data="{field:'sign'}">{{ item[4] }}</th>
-                            <th lay-data="{field:'depart'}">{{item[5]}}</th>
-                            <th lay-data="{field:'experience', sort: true}">{{ item[6] }}</th>
-                            <th lay-data="{field:'score', sort: true}">{{ item[7] }}</th>
-                            <th lay-data="{field:'classify'}">{{ item[8] }}</th>
+                            <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
+                                <a href="#">查看</a>
+                            </th>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -103,7 +124,7 @@
         util.event('lay-header-event', {
             menuLeft: function (othis) { // 左侧菜单事件
                 layer.msg('展开左侧菜单的操作', {icon: 0});
-            }
+            },
         });
     });
 </script>

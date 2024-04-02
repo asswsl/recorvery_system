@@ -51,7 +51,23 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
-
+                <div class="layui-row">
+                    <div class="layui-col-xs6">
+                        <!--                        饼图-->
+                        <div class="grid-demo" style="width:400px;height:300px;" id="pie"></div>
+                    </div>
+                    <div class="layui-col-xs6">
+                        <div class="grid-demo" style="width:400px;height:300px;" id="bar"></div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6">
+                        <div class="grid-demo" style="width:400px;height:300px;" id=""></div>
+                    </div>
+                    <div class="layui-col-xs6">
+                        <div class="grid-demo" style="width:400px;height:300px;" id=""></div>
+                    </div>
+                </div>
             </blockquote>
 
         </div>
@@ -59,8 +75,61 @@
 </div>
 
 <script src="//cdn.staticfile.org/layui/2.9.7/layui.js"></script>
+<script src="../static/js/echarts.min.js"></script>
 <script>
-    //JS
+    {#饼状图#}
+    var pie = echarts.init(document.getElementById('pie'));
+    var pieoption = {
+        title: {
+            text: '病症统计'
+        },
+        series: [
+            {
+                type: 'pie',
+                data: [
+                    {% for item in data1 %}
+                        {
+                            value:{{ item[1] }},
+                            name: '{{ item[0] }}'
+                        },
+                    {% endfor %}
+                ]
+            }
+        ]
+    };
+    pie.setOption(pieoption);
+    {#柱状图#}
+    var bar = echarts.init(document.getElementById('bar'));
+    var baroption = {
+        title: {
+            text: '就诊部门'
+        },
+        xAxis: {
+            name: '就诊部门',
+            type: 'category',
+            data: [{% for item in data2 %} '{{ item[0] }}',{% endfor %}]
+        },
+        yAxis: {
+            name: '数量',
+            type: 'value',
+            axisLabel: {
+                formatter: function (value){
+                    {#设置y轴刻度只能是整数#}
+                    return Math.floor(value);
+                }
+            }
+        },
+        series: [{
+            type: 'bar',
+            data: [{% for item in data2 %} {{ item[1] }}, {% endfor %}],
+            itemStyle: {
+                normal: {
+                    color: "#31b0d5"
+                }
+            }
+        }]
+    };
+    bar.setOption(baroption);
     layui.use(['element', 'layer', 'util'], function () {
         var element = layui.element;
         var layer = layui.layer;
