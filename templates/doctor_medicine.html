@@ -8,15 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="//cdn.staticfile.org/layui/2.9.7/css/layui.css" rel="stylesheet">
 </head>
-<style>
-    .tab {
-        height: 73px;
-        line-height: 73px;
-        border: solid #1b1e21 1px;
-        text-align: center;
-        font-size: 16px;
-    }
-</style>
 <body>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -59,64 +50,56 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
-                <div class="layui-row">
-                    <div class="layui-col-xs1">
-                        <div class="grid-demo grid-demo-bg1">
-                            <img src="../static/img/man.jpg" style="width: 150px;height: 150px">
-                        </div>
-                    </div>
-                    <div class="layui-col-xs7">
-                        <div class="layui-row">
-                            <div class="layui-col-xs6">
-                                <div class="grid-demo grid-demo-bg1 tab">卡号：{{ data[0] }}</div>
-                            </div>
-                            <div class="layui-col-xs6">
-                                <div class="grid-demo grid-demo-bg1 tab">姓名：{{ data[1] }}</div>
+                <form class="layui-form" action="{{ url_for('doctor.doctor_medicine') }}" method="post">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" for="patient_id">患者卡号</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                <input type="text" id="patient_id" name="patient_id" lay-reqtext="请填写患者卡号"
+                                       lay-affix="clear"
+                                       class="layui-input" value="{{ data[0] }}">
                             </div>
                         </div>
-                        <div class="layui-row">
-                            <div class="layui-col-xs6">
-                                <div class="grid-demo grid-demo-bg1 tab">性别：{{ data[2] }}</div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="patient_name">患者姓名</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                <input type="text" id="patient_name" name="patient_name"
+                                       lay-affix="clear"
+                                       class="layui-input" value="{{ data[1] }}">
                             </div>
-                            <div class="layui-col-xs6">
-                                <div class="grid-demo grid-demo-bg1 tab">年龄：{{ data[3] }}</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">选择性别</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="sex" value="男" title="男"  {% if data[2]=='男' %}
+                                       checked{% endif %}>
+                                <input type="radio" name="sex" value="女" title="女" {% if data[2]=='女' %}
+                                       checked{% endif %}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="age">患者年龄</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                <input type="text" id="age" name="age"
+                                       lay-affix="clear"
+                                       class="layui-input" value="{{ data[3] }}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" for="medicine">药方</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                <textarea id="medicine" name="medicine" placeholder="填写药品及用药方法" class="layui-textarea"></textarea>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="lay-row">
-                    <div class="layui-col-xs8">
-                        <div class="grid-demo grid-demo-bg1 tab">病情描述：{{ data[6] }}</div>
-                    </div>
-                </div>
-                <div class="lay-row">
-                    <div class="layui-col-xs8">
-                        <div class="layui-col-xs6">
-                            <div class="grid-demo grid-demo-bg1 tab">主治医生：{{ data[4] }}</div>
-                        </div>
-                        <div class="layui-col-xs6">
-                            <div class="grid-demo grid-demo-bg1 tab">就诊科室：{{ data[5] }}</div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn" lay-submit lay-on="msg">提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
-                </div>
-                <div class="lay-row">
-                    <div class="layui-col-xs8">
-                        <div class="grid-demo grid-demo-bg1 tab">用药记录：{% for item in medicine %} {{ item[4] }}{% endfor %}</div>
-                    </div>
-                </div>
-                <div class="lay-row">
-                    <div class="layui-col-xs8">
-                        <div class="grid-demo grid-demo-bg1 tab">
-                            <form action="{{ url_for('doctor.doctor_medicine') }}" method="post">
-                                <textarea id="medicine" name="medicine" placeholder="填写药品及用药方法"
-                                          class="layui-textarea"></textarea>
-                                <button class="layui-btn layui-bg-blue" name="patient_id" value="{{ data[0] }}">
-                                    开方
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </blockquote>
 
         </div>

@@ -39,8 +39,33 @@ def doctor_searchPatient():
                 mesage = '不存在信息'
             else:
                 mesage = '查询成功'
-    return render_template('doctor_searchPatient.html',mesage=mesage,data=result)
+    return render_template('doctor_searchPatient.html', mesage=mesage, data=result)
 
+
+# 患者详细信息界面
+@doctor_blue.route('/doctor_detailsInfo', methods=['POST', 'GET'])
+def doctor_detailsInfo():
+    id = request.form['patient_id']
+    cursor.execute('select * from treat_info where patient_id=%s', (id))
+    result = cursor.fetchone()
+    cursor.execute('select * from prescription_info where patient_id=%s',(id))
+    medicine=cursor.fetchall()
+    print(result)
+    return render_template('doctor_detailsInfo.html', data=result,medicine=medicine)
+
+
+# 为患者开方
+@doctor_blue.route('/doctor_medicine', methods=['POST', 'GET'])
+def doctor_medicine():
+    id = request.form['patient_id']
+    medicine = request.form['medicine']
+    cursor.execute('select * from treat_info where patient_id=%s', (id))
+    patient = cursor.fetchone()
+    print(patient,medicine)
+    cursor.execute('insert into prescription_info values (%s,%s,%s,%s,%s)',(patient[0],patient[1],patient[2],patient[3],medicine))
+    db.commit()
+    return render_template('doctor_detailsInfo.html', data=patient)
+#
 
 # 动态表格分析患者数据
 @doctor_blue.route('/doctor_chart')
