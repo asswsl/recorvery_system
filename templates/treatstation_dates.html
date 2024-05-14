@@ -43,7 +43,7 @@
                     <a href="javascript:;">治疗项目</a>
                     <dl class="layui-nav-child">
                         <dd><a href="{{ url_for('doctor.doctor_chart') }}">治疗评价</a></dd>
-                        <dd><a href="{{ url_for('treatstation_dates') }}">日期安排</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_dates') }}">日期安排</a></dd>
                     </dl>
                 </li>
 
@@ -56,7 +56,7 @@
             <blockquote class="layui-elem-quote layui-text">
 
 
-                <form class="layui-form" action="{{ url_for('treatstation.treatstation_dates') }}" method="post">
+                <form class="layui-form" action="{{ url_for('treat.treatstation_dates') }}" method="post">
                     {% if mesage is defined and mesage %}
                         <p style="color: red">{{ mesage }}</p>
                     {% endif %}
@@ -74,14 +74,9 @@
                             <label class="layui-form-label" for="nurse_1">0点-6点</label>
                             <div class="layui-input-inline layui-input-wrap">
                                 <select id="nurse_1" name="nurse_1" lay-verify="required" lay-search>
-<!--                                    {% for name in data %}-->
-<!--                                        <option value="{{name[0]}}">{{name[0]}}</option>-->
-<!--                                    {% endfor %}-->
                                     {% for item in data %}
                                         <option value="{{ item[0] }}">{{ item[0] }}</option>
                                     {% endfor %}
-
-
                                 </select>
                             </div>
                         </div>
@@ -90,13 +85,9 @@
                             <label class="layui-form-label" for="nurse_2">6点-12点</label>
                             <div class="layui-input-inline layui-input-wrap">
                                 <select id="nurse_2" name="nurse_2" lay-verify="required" lay-search>
-                                    <option value="">请选择值班护士</option>
-                                    <option value="nurse1">asswsl</option>
-                                    <option value="nurse2">https</option>
-                                    <option value="nurse3">hjk</option>
-                                    <option value="nurse4">cvb</option>
-                                    <option value="nurse5">345</option>
-                                    <option value="nurse6">777</option>
+                                    {% for item in data %}
+                                        <option value="{{ item[0] }}">{{ item[0] }}</option>
+                                    {% endfor %}
                                     <!-- 添加更多选项 -->
                                 </select>
                             </div>
@@ -107,13 +98,16 @@
                             <label class="layui-form-label" for="nurse_3">12点-18点</label>
                             <div class="layui-input-inline layui-input-wrap">
                                 <select id="nurse_3" name="nurse_3" lay-verify="required" lay-search>
-                                    <option value="">请选择值班护士</option>
-                                    <option value="nurse1">asswsl</option>
-                                    <option value="nurse2">https</option>
-                                    <option value="nurse3">hjk</option>
-                                    <option value="nurse4">cvb</option>
-                                    <option value="nurse5">345</option>
-                                    <option value="nurse6">777</option>
+                                    {#                                    <option value="">请选择值班护士</option>#}
+                                    {#                                    <option value="nurse1">asswsl</option>#}
+                                    {#                                    <option value="nurse2">https</option>#}
+                                    {#                                    <option value="nurse3">hjk</option>#}
+                                    {#                                    <option value="nurse4">cvb</option>#}
+                                    {#                                    <option value="nurse5">345</option>#}
+                                    {#                                    <option value="nurse6">777</option>#}
+                                    {% for item in data %}
+                                        <option value="{{ item[0] }}">{{ item[0] }}</option>
+                                    {% endfor %}
                                     <!-- 添加更多选项 -->
                                 </select>
                             </div>
@@ -123,24 +117,18 @@
                             <label class="layui-form-label" for="nurse_4">18点-0点</label>
                             <div class="layui-input-inline layui-input-wrap">
                                 <select id="nurse_4" name="nurse_4" lay-verify="required" lay-search>
-                                    <option value="">请选择值班护士</option>
-                                    <option value="nurse1">asswsl</option>
-                                    <option value="nurse2">https</option>
-                                    <option value="nurse3">hjk</option>
-                                    <option value="nurse4">cvb</option>
-                                    <option value="nurse5">345</option>
-                                    <option value="nurse6">777</option>
-                                    <!-- 添加更多选项 -->
+                                    {% for item in data %}
+                                        <option value="{{ item[0] }}">{{ item[0] }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
-
                         <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <button type="submit" class="layui-btn" lay-submit lay-on="msg">提交</button>
-<!--                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn" lay-submit lay-on="msg">提交</button>
+                                <!--                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                            </div>
                         </div>
-                    </div>
 
                     </div>
 

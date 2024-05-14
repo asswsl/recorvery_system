@@ -78,4 +78,5 @@ def doctor_chart():
     depart_counts = cursor.fetchall()
     for item in depart_counts:
         print(item[0], item[1])
+
     return render_template('doctor_chart.html', data1=treatments_counts, data2=depart_counts)
