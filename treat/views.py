@@ -20,16 +20,18 @@ def treatstation_dates():
     cursor.execute('select name from user where rol="护士站"')
     result = cursor.fetchall()
     # nurse_1: 0-6 nurse_2: 6-12 nurse_3: 12-18 nurse_4: 18-0
-    nurse1 = request.form.get('nurse_1')
-    nurse2 = request.form.get('nurse_2')
-    nurse3 = request.form.get('nurse_3')
-    nurse4 = request.form.get('nurse_4')
     date = request.form.get('duty_time')
-    print(date)
-    nursing_times = [('0-6', nurse1), ('6-12', nurse2), ('12-18', nurse3), ('18-0', nurse4)]
-    for time, nurse in nursing_times:
-        time = date + ' ' + time
-        print(time)
-        cursor.execute("INSERT INTO treatstation (nurse_name, duty_time)VALUES (%s, %s)", (nurse, time))
-        db.commit()
+    if date=='':
+        msg='日期未填写'
+        print(msg)
+    else:
+        nurse1 = request.form.get('nurse_1',None)
+        nurse2 = request.form.get('nurse_2',None)
+        nurse3 = request.form.get('nurse_3',None)
+        nurse4 = request.form.get('nurse_4',None)
+        nursing_times = [('0-6', nurse1), ('6-12', nurse2), ('12-18', nurse3), ('18-0', nurse4)]
+        for time, nurse in nursing_times:
+            time = str(date) + ' ' + str(time)
+            cursor.execute("INSERT INTO treatstation (nurse_name, duty_time)VALUES (%s, %s)", (nurse, time))
+            db.commit()
     return render_template('treatstation_dates.html', data=result)
