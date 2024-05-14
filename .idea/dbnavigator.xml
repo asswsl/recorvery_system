@@ -9,6 +9,24 @@
     <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
+  <component name="DBNavigator.Project.DataExportManager">
+    <export-instructions>
+      <create-header value="true" />
+      <friendly-headers value="false" />
+      <quote-values-containing-separator value="true" />
+      <quote-all-values value="false" />
+      <value-separator value="" />
+      <begin-quote value="&quot;" />
+      <end-quote value="&quot;" />
+      <file-name value="" />
+      <file-location value="" />
+      <scope value="GLOBAL" />
+      <destination value="FILE" />
+      <format value="EXCEL" />
+      <charset value="UTF-8" />
+      <charset value="UTF-8" />
+    </export-instructions>
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -17,16 +35,223 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="1238e2a6-fefa-4399-869c-5bcc6e9a956d">
-      <console name="Connection" type="STANDARD" schema="recorvery_system" session="Main"><![CDATA[DROP TABLE IF EXISTS `doctor_info`;
+      <console name="Connection" type="STANDARD" schema="recorvery_system" session="Main"><![CDATA[/*
+ Navicat Premium Data Transfer
+
+ Source Server         : mysql
+ Source Server Type    : MySQL
+ Source Server Version : 80200
+ Source Host           : localhost:3306
+ Source Schema         : recorvery_system
+
+ Target Server Type    : MySQL
+ Target Server Version : 80200
+ File Encoding         : 65001
+
+ Date: 05/04/2024 17:24:36
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for device_info
+-- ----------------------------
+DROP TABLE IF EXISTS `device_info`;
+CREATE TABLE `device_info`  (
+  `device_id` int NULL DEFAULT NULL COMMENT '设备编号',
+  `device_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '设备名称',
+  `device_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '设备类型',
+  `device_own` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '设备归属部门',
+  `start_time` date NULL DEFAULT NULL COMMENT '设备购入时间',
+  `end_time` date NULL DEFAULT NULL COMMENT '设备报废时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of device_info
+-- ----------------------------
+INSERT INTO `device_info` VALUES (1, '病床', '床', '内科', '2024-03-01', '2024-03-13');
+INSERT INTO `device_info` VALUES (2, '推车', '工具', '内科', '2024-02-29', NULL);
+INSERT INTO `device_info` VALUES (3, '轮椅', '椅', '内科', '2024-03-13', NULL);
+INSERT INTO `device_info` VALUES (4, '11', '11', '11', '2024-03-16', '2024-03-16');
+INSERT INTO `device_info` VALUES (11, '11', '11', '11', '2024-03-23', '2024-03-23');
+
+-- ----------------------------
+-- Table structure for doctor_info
+-- ----------------------------
+DROP TABLE IF EXISTS `doctor_info`;
 CREATE TABLE `doctor_info`  (
-  `doctor_id` int NOT NULL COMMENT '医师卡号',
+  `doctor_id` int NOT NULL COMMENT '医师id',
   `doctor_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '医师姓名',
+  `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `age` int NULL DEFAULT NULL,
+  `department` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '科室',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '职称',
+  PRIMARY KEY (`doctor_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of doctor_info
+-- ----------------------------
+INSERT INTO `doctor_info` VALUES (1, 'mbg', '男', 33, '临床', 'doctor');
+INSERT INTO `doctor_info` VALUES (2, 'wys', '男', 45, '神经外科', 'doctor');
+INSERT INTO `doctor_info` VALUES (3, 'lzt', '男', 23, '五官科', 'doctor');
+INSERT INTO `doctor_info` VALUES (7, '7', '男', 7, '7', '7');
+
+-- ----------------------------
+-- Table structure for patient_info
+-- ----------------------------
+DROP TABLE IF EXISTS `patient_info`;
+CREATE TABLE `patient_info`  (
+  `patient_id` int NOT NULL COMMENT '患者就诊卡号',
+  `patient_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '患者姓名',
   `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别',
   `age` int NULL DEFAULT NULL COMMENT '年龄',
-  `department` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '科室',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '职称',
+  `hospital_id` int NULL DEFAULT NULL COMMENT '住院号',
+  `start_time` date NULL DEFAULT NULL COMMENT '开始时间',
+  `diagnosis_time` date NULL DEFAULT NULL COMMENT '诊断时间',
+  `end_time` date NULL DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`patient_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;]]></console>
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '患者信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of patient_info
+-- ----------------------------
+
+
+INSERT INTO `patient_info` VALUES (1, '111', '女', 1, NULL, '2024-03-08', '2024-03-08', NULL);
+INSERT INTO `patient_info` VALUES (2, 'as1', '男', 21, 2, '2024-02-10', '2024-02-11', '2024-03-02');
+INSERT INTO `patient_info` VALUES (3, 'cvbc', '女', 22, NULL, '2024-03-08', '2024-03-08', NULL);
+INSERT INTO `patient_info` VALUES (4, '4', '男', 4, NULL, '2024-03-21', '2024-03-21', NULL);
+
+-- ----------------------------
+-- Table structure for prescription_info
+-- ----------------------------
+DROP TABLE IF EXISTS `prescription_info`;
+CREATE TABLE `prescription_info`  (
+  `patient_id` int NOT NULL COMMENT '病人id',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '病人姓名',
+  `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别',
+  `age` int NULL DEFAULT NULL COMMENT '年龄',
+  `medicine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '药物'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of prescription_info
+-- ----------------------------
+INSERT INTO `prescription_info` VALUES (2, 'as1', '男', 21, '12345');
+INSERT INTO `prescription_info` VALUES (2, 'as1', '男', 21, 'a：一天2次\r\nb：一天3次');
+
+-- ----------------------------
+-- Table structure for treat_info
+-- ----------------------------
+DROP TABLE IF EXISTS `treat_info`;
+CREATE TABLE `treat_info`  (
+  `patient_id` int NOT NULL COMMENT '患者卡号',
+  `patient_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '患者姓名',
+  `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别',
+  `age` int NULL DEFAULT NULL COMMENT '年龄',
+  `doctor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '主治医生',
+  `depart` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '预约部门',
+  `treatments` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '治疗项目',
+  `total_numbers` int NULL DEFAULT NULL COMMENT '总治疗次数',
+  `used_numbers` int NULL DEFAULT NULL COMMENT '已治疗次数',
+  PRIMARY KEY (`patient_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of treat_info
+-- ----------------------------
+INSERT INTO `treat_info` VALUES (1, '1', '男', 1, '1', '中医科', '脚踝疼痛', 1, 0);
+INSERT INTO `treat_info` VALUES (2, 'as1', '男', 21, 'aswl', '内科', '扁桃体发炎', 5, 2);
+INSERT INTO `treat_info` VALUES (3, '678', '男', 45, 'dfg', '内科', '头疼', 10, 0);
+INSERT INTO `treat_info` VALUES (5, '111', '男', 23, 'aswl', '外科', '皮肤病', 10, 6);
+INSERT INTO `treat_info` VALUES (7, 'wae', '女', 55, 'dfg', '骨科', '骨折', 7, 0);
+
+-- ----------------------------
+-- Table structure for treatment_info
+-- ----------------------------
+DROP TABLE IF EXISTS `treatment_info`;
+CREATE TABLE `treatment_info`  (
+  `treat_id` int NOT NULL COMMENT '项目编号',
+  `treat_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '治疗项目',
+  `treat_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '治疗类型',
+  `treat_numbers` int NULL DEFAULT NULL COMMENT '治疗次数',
+  PRIMARY KEY (`treat_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of treatment_info
+-- ----------------------------
+INSERT INTO `treatment_info` VALUES (1, '3', '33', 33);
+INSERT INTO `treatment_info` VALUES (2, '2', '2', 2);
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`  (
+  `userid` int NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `rol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `depart` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'jon', '123@qq.com', '12345', '医生站', '中医科');
+INSERT INTO `user` VALUES (2, 'asswsl', 'wys124126@163.com', '12345', '护士站', '内科');
+INSERT INTO `user` VALUES (3, 'admin', '12345@we.com', '12345', '医生站', '外科');
+INSERT INTO `user` VALUES (3, 'https', '12345@ww.com', '12345', '护士站', '内科');
+INSERT INTO `user` VALUES (0, '10086', '1233@qq.com', '12345', '管理员', '中医科');
+INSERT INTO `user` VALUES (0, 'hjk', '678@qq.com', '12345', '护士站', '中医科');
+INSERT INTO `user` VALUES (0, 'cvb', '456@qq.com', '12345', '护士站', '骨科');
+INSERT INTO `user` VALUES (0, '345', '345@qq.com', '12345', '护士站', '中医科');
+INSERT INTO `user` VALUES (0, '222', '111@qq.com', '12345', '管理员', '中医科');
+INSERT INTO `user` VALUES (0, '777', '777@qq.com', '12345', '护士站', '中医科');
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- ----------------------------
+-- Table structure for treatstation
+-- ----------------------------
+DROP TABLE IF EXISTS `treatstation`;
+CREATE TABLE `treatstation` (
+  `record_id` INT AUTO_INCREMENT,
+  `nurse_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL,
+  `duty_time` datetime NULL,
+  `patient` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL,
+  `doctor_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `patient_nurse` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL, #病人对应护士
+  `patient_doctor` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL, #病人对应医生
+  `treatment_plan` TEXT,
+  PRIMARY KEY (`record_id`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- 插入护士数据到新表
+INSERT INTO `treatstation` (nurse_name) SELECT `name` FROM `user` WHERE rol = '护士站'; 
+
+-- 插入医生数据到新表
+INSERT INTO `treatstation` (doctor_name)
+SELECT name
+FROM `user`
+WHERE rol = '医生站';
+
+-- 插入病人数据到新表
+INSERT INTO `treatstation` (patient)
+SELECT patient_name
+FROM `patient_info`
+
+SELECT name FROM user WHERE rol = '护士站';
+
+select
+    t.*
+from
+    user t;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -38,12 +263,19 @@ CREATE TABLE `doctor_info`  (
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" />
+    <connection id="1238e2a6-fefa-4399-869c-5bcc6e9a956d">
+      <session name="Session 1" id="8de3754d-1aa5-4884-9fbc-ee2ba6320b23" />
+    </connection>
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" dataset="recorvery_system.doctor_info" active-filter-id="745935d4-71cf-49ed-b002-692cd4db0a26">
       <filter id="745935d4-71cf-49ed-b002-692cd4db0a26" name="1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="doctor_id" operator="=" value="1" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" dataset="recorvery_system.treatstation" active-filter-id="141e983d-00df-4778-8afb-e8697616760a">
+      <filter id="141e983d-00df-4778-8afb-e8697616760a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="nurse_name" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
     <filter-actions connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" dataset="recorvery_system.user" active-filter-id="EMPTY_FILTER">
@@ -122,7 +354,7 @@ CREATE TABLE `doctor_info`  (
           <session-management value="true" />
           <ddl-file-binding value="true" />
           <database-logging value="true" />
-          <connect-automatically value="false" />
+          <connect-automatically value="true" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="false" />
           <environment-type value="default" />
