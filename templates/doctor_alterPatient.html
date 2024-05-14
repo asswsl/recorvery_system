@@ -50,45 +50,92 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <blockquote class="layui-elem-quote layui-text">
-                <form class="layui-form" action="{{ url_for('doctor.doctor_medicine') }}" method="post">
+                <form class="layui-form layui-form-pane" action="{{ url_for('doctor.doctor_alterPatient') }}"
+                      method="post">
+                    {% if mesage1 is defined and mesage1 %}
+                        <p style="color: red">{{ mesage1 }}</p>
+                    {% endif %}
                     <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label" for="patient_id">患者卡号</label>
+                        <label class="layui-form-label" for="patient_id">查询数据</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patient_id" name="patient_id" placeholder="请输入患者id进行查询"
+                                   lay-verify="required"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" lay-submit>查询</button>
+                    </div>
+                </form>
+                <form class="layui-form" action="{{ url_for('doctor.doctor_alterPatient') }}" method="post">
+                    {% if mesage2 is defined and mesage2 %}
+                        <p style="color: red">{{ mesage2 }}</p>
+                    {% endif %}
+                    <div class="layui-form-item">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="id">患者id</label>
                             <div class="layui-input-inline layui-input-wrap">
-                                <input type="text" id="patient_id" name="patient_id" lay-reqtext="请填写患者卡号"
-                                       lay-affix="clear"
-                                       class="layui-input" value="{{ data[0] }}">
+                                <input type="text" id="id" name="id" lay-affix="clear"
+                                       class="layui-input"
+                                       value="{{ data1[0] }}">
                             </div>
                         </div>
-                        <div class="layui-form-item">
+                        <div class="layui-inline">
                             <label class="layui-form-label" for="patient_name">患者姓名</label>
                             <div class="layui-input-inline layui-input-wrap">
-                                <input type="text" id="patient_name" name="patient_name"
-                                       lay-affix="clear"
-                                       class="layui-input" value="{{ data[1] }}">
+                                <input type="text" id="patient_name" name="patient_name" lay-affix="clear"
+                                       class="layui-input"
+                                       value="{{ data1[1] }}">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">选择性别</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="sex" value="男" title="男"  {% if data[2]=='男' %}
+                                <input type="radio" name="sex" value="男" title="男"  {% if data1[2]=='男' %}
                                        checked{% endif %}>
-                                <input type="radio" name="sex" value="女" title="女" {% if data[2]=='女' %}
+                                <input type="radio" name="sex" value="女" title="女" {% if data1[2]=='女' %}
                                        checked{% endif %}>
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label" for="age">患者年龄</label>
+                            <label class="layui-form-label" for="age">年龄</label>
                             <div class="layui-input-inline layui-input-wrap">
-                                <input type="text" id="age" name="age"
-                                       lay-affix="clear"
-                                       class="layui-input" value="{{ data[3] }}">
+                                <input type="text" id="age" name="age" lay-affix="clear" class="layui-input"
+                                       value="{{ data1[3] }}">
                             </div>
                         </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label" for="medicine">药方</label>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="doctor">医生</label>
                             <div class="layui-input-inline layui-input-wrap">
-                                <textarea id="medicine" name="medicine" placeholder="填写药品及用药方法" class="layui-textarea"></textarea>
+                                <input type="text" id="doctor" name="doctor" lay-affix="clear" class="layui-input"
+                                       value="{{ data1[4] }}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="depart">部门</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                <input type="text" id="depart" name="depart" lay-affix="clear"
+                                       class="layui-input" value="{{ data1[5] }}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="treatments">病症</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                <input type="text" id="treatments" name="treatments" lay-affix="clear"
+                                       class="layui-input"
+                                       value="{{ data1[6] }}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="medicine_name">药方</label>
+                            <div class="layui-input-inline layui-input-wrap">
+                                    <input type="text" id="medicine_name" name="medicine_name" lay-affix="clear"
+                                           class="layui-input"
+                                           value="{{ data2[4] }}">
+                                    <input type="text" id="medicine_number" name="medicine_number"
+                                           lay-affix="clear"
+                                           class="layui-input"
+                                           value="{{ data2[5] }}">
                             </div>
                         </div>
                     </div>

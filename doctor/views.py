@@ -48,24 +48,66 @@ def doctor_detailsInfo():
     id = request.form['patient_id']
     cursor.execute('select * from treat_info where patient_id=%s', (id))
     result = cursor.fetchone()
-    cursor.execute('select * from prescription_info where patient_id=%s',(id))
-    medicine=cursor.fetchall()
+    cursor.execute('select * from prescription_info where patient_id=%s', (id))
+    medicine = cursor.fetchall()
     print(result)
-    return render_template('doctor_detailsInfo.html', data=result,medicine=medicine)
+    return render_template('doctor_detailsInfo.html', data=result, medicine=medicine)
 
 
 # 为患者开方
 @doctor_blue.route('/doctor_medicine', methods=['POST', 'GET'])
 def doctor_medicine():
     id = request.form['patient_id']
-    medicine = request.form['medicine']
+    medicine_name = request.form['medicine_name']
+    medicine_number = request.form['medicine_number']
     cursor.execute('select * from treat_info where patient_id=%s', (id))
     patient = cursor.fetchone()
-    print(patient,medicine)
-    cursor.execute('insert into prescription_info values (%s,%s,%s,%s,%s)',(patient[0],patient[1],patient[2],patient[3],medicine))
+    # print(patient, medicine_name,medicine_number)
+    cursor.execute('insert into prescription_info values (%s,%s,%s,%s,%s,%s)',
+                   (patient[0], patient[1], patient[2], patient[3], medicine_name, medicine_number))
     db.commit()
     return render_template('doctor_detailsInfo.html', data=patient)
-#
+
+
+# 修改患者信息
+@doctor_blue.route('/doctor_alterPatient', methods=['POST', 'GET'])
+def doctor_alterPatient():
+    mesage1 = ''
+    mesage2 = ''
+    result1 = ''
+    result2 = ''
+    if request.method == 'POST' and 'patient_id' in request.form:
+        patient_id = request.form.get('patient_id')
+        cursor.execute('select * from treat_info where patient_id=%s', (patient_id))
+        result1 = cursor.fetchone()
+        cursor.execute('select * from prescription_info where patient_id=%s', (patient_id))
+        result2 = cursor.fetchone()
+        print(result2)
+        if not result1 and not result2:
+            mesage1 = '查询失败'
+        else:
+            mesage1 = '查询成功'
+    if request.method == 'POST' and 'patient_name' in request.form and 'sex' in request.form and 'age' in request.form:
+        patient_id = request.form.get('id')
+        patient_name = request.form.get('patient_name')
+        sex = request.form.get('sex')
+        age = request.form.get('age')
+        doctor = request.form.get('doctor')
+        depart = request.form.get('depart')
+        treatments = request.form.get('treatments')
+        medicine_name = request.form.get('medicine_name')
+        medicine_number = request.form.get('medicine_number')
+        print(patient_id, patient_name, sex, age, doctor, depart, treatments, medicine_name, medicine_number)
+        cursor.execute(
+            'update treat_info set patient_name=%s , sex=%s, age=%s, doctor=%s,depart=%s ,treatments=%s where patient_id=%s',
+            (patient_name, sex, age, doctor, depart, treatments, int(patient_id)))
+        db.commit()
+        cursor.execute('update prescription_info set medicine_name=%s,medicine_number=%s where patient_id=%s',
+                       (medicine_name, medicine_number,int(patient_id)))
+        db.commit()
+        mesage2 = '修改成功'
+    return render_template('doctor_alterPatient.html', data1=result1, data2=result2, mesage1=mesage1, mesage2=mesage2)
+
 
 # 动态表格分析患者数据
 @doctor_blue.route('/doctor_chart')

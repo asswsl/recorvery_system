@@ -43,7 +43,7 @@
                     <dl class="layui-nav-child">
                         <dd><a href="{{ url_for('doctor.doctor_patientInfo') }}">浏览患者基本信息</a></dd>
                         <dd><a href="{{ url_for('doctor.doctor_searchPatient') }}">查找患者信息</a></dd>
-                        <dd><a href="#">修改患者信息</a></dd>
+                        <dd><a href="{{ url_for('doctor.doctor_alterPatient') }}">修改患者信息</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
@@ -108,8 +108,8 @@
                     <div class="layui-col-xs8">
                         <div class="grid-demo grid-demo-bg1 tab">
                             <form action="{{ url_for('doctor.doctor_medicine') }}" method="post">
-                                <textarea id="medicine" name="medicine" placeholder="填写药品及用药方法"
-                                          class="layui-textarea"></textarea>
+                                <input type="text" name="medicine_name" placeholder="填写药品名称">
+                                <input type="text" name="medicine_number" placeholder="填写用药次数">
                                 <button class="layui-btn layui-bg-blue" name="patient_id" value="{{ data[0] }}">
                                     开方
                                 </button>
