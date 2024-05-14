@@ -223,7 +223,7 @@ DROP TABLE IF EXISTS `treatstation`;
 CREATE TABLE `treatstation` (
   `record_id` INT AUTO_INCREMENT,
   `nurse_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL,
-  `duty_time` datetime NULL,
+  `duty_time` VARCHAR(100) NULL,
   `patient` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL,
   `doctor_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `patient_nurse` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL, #病人对应护士
@@ -251,7 +251,7 @@ SELECT name FROM user WHERE rol = '护士站';
 select
     t.*
 from
-    user t;]]></console>
+    treatstation t;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

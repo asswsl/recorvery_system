@@ -62,9 +62,9 @@
                     {% endif %}
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label" for="doctor_id">日期</label>
+                            <label class="layui-form-label" for="id">日期</label>
                             <div class="layui-input-inline layui-input-wrap">
-                                <input type="date" id="doctor_id" name="doctor_id" placeholder="请选择值班护士"
+                                <input type="date" id="id" name="duty_time" placeholder="请选择值班护士"
                                        lay-affix="clear"
                                        class="layui-input">
                             </div>
@@ -98,13 +98,6 @@
                             <label class="layui-form-label" for="nurse_3">12点-18点</label>
                             <div class="layui-input-inline layui-input-wrap">
                                 <select id="nurse_3" name="nurse_3" lay-verify="required" lay-search>
-                                    {#                                    <option value="">请选择值班护士</option>#}
-                                    {#                                    <option value="nurse1">asswsl</option>#}
-                                    {#                                    <option value="nurse2">https</option>#}
-                                    {#                                    <option value="nurse3">hjk</option>#}
-                                    {#                                    <option value="nurse4">cvb</option>#}
-                                    {#                                    <option value="nurse5">345</option>#}
-                                    {#                                    <option value="nurse6">777</option>#}
                                     {% for item in data %}
                                         <option value="{{ item[0] }}">{{ item[0] }}</option>
                                     {% endfor %}
