@@ -58,7 +58,7 @@
             <blockquote class="layui-elem-quote layui-text">
 
                   <div style="display: flex; justify-content: center;">
-                      <form action="/show_schedule" method="POST">
+                      <form action="{{ url_for('treat.treatstation_duty') }}" method="POST">
                           <label for="date">选择日期:</label><br>
                           <input type="date" id="date" name="date"><br>
                           <input type="submit" value="查看排班信息"><br>
@@ -79,7 +79,7 @@
                     </tr>
                     </thead>
                     <tbody>
-<!--                    {% for item in data %}-->
+
                         <tr>
                             <th lay-data="{field:'Th'}">零点至六点</th>
                             <th lay-data="{field:'Mon', width:80, sort: true}">{{ data.get('Monday-0-6', '') }}</th>
@@ -90,7 +90,7 @@
                             <th lay-data="{field:'Sa'}">{{ data.get('Saturday-0-6', '') }}</th>
                             <th lay-data="{field:'Su'}">{{ data.get('Sunday-0-6', '') }}</th>
                         </tr>
-<!--                    {% endfor %}-->
+
 
                          <tr>
                             <th lay-data="{field:'Th'}">六点至十二点</th>

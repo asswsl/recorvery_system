@@ -50,7 +50,7 @@ def treatstation_duty():
                 duty_time AS Date, 
                 SUBSTRING_INDEX(duty_time, ' ', -1) AS TimePeriod,
                 DAYNAME(STR_TO_DATE(duty_time, '%Y-%m-%d')) AS Weekday, 
-                DATE(STR_TO_DATE(duty_time, '%Y-%m-%d %H:%i')) AS `Date`,
+                STR_TO_DATE(SUBSTRING_INDEX(duty_time, ' ', 1), '%Y-%m-%d') AS DateOnly,
                 patient, 
                 doctor_name, 
                 patient_nurse, 
@@ -85,6 +85,12 @@ def treatstation_duty():
 
     # 提取出前端选择的日期
     selected_date = request.form.get('date')
+    print(selected_date)
+
+    #计算日期所在周
+    week = datetime.datetime.strptime(selected_date, '%Y-%m-%d')
+    start_week = week - datetime.timedelta(days=week.weekday())
+    end_week = start_week + datetime.timedelta(days=7)
 
     # 先生成一个空的字典
 
@@ -94,23 +100,28 @@ def treatstation_duty():
     for i in range(len(nurse_schedule[0]["nurse_name"])):
         nurse = nurse_schedule[0]["nurse_name"][i]
         weekday = nurse_schedule[0]["weekday"][i]
-        day = nurse_schedule[0]["day"][i]
+        # day = nurse_schedule[0]["day"][i]
         hours = nurse_schedule[0]["hours"][i]
 
-        # 如果nurse、weekday、hours、day有一项为空，或者hours非规定的四个时间段，则不处理
-        if not all((nurse, weekday, day, hours)) or hours not in ["0-6", "6-12", "12-18", "18-0"]:
+        try:
+            day = datetime.datetime.strptime(str(nurse_schedule[0]["day"][i]), '%Y-%m-%d')
+        except ValueError:
             continue
 
-        if selected_date != day:
-            continue
+        # 如果selected_day在那周的日期范围内并且其它所有条件满足我们才进行处理
+        if start_week <= day <= end_week and all((nurse, weekday, hours)) and hours in ["0-6", "6-12", "12-18",
+                                                                                            "18-0"]:
+            key = f"{day.strftime('%Y-%m-%d')}-{weekday}-{hours}"
+            if key not in nurse_table:
+                nurse_table[key] = []
+            nurse_table[key].append(nurse)
 
-        # 构造键值
-        key = f"{day}-{weekday}-{hours}"
+        # # 如果selected_date等于day，并且剩余所有条件全部满足，我们才处理这个护士的安排
+        # if selected_date == str(day) and all((nurse, weekday, hours)) and hours in ["0-6", "6-12", "12-18", "18-0"]:
+        #     key = f"{day}-{weekday}-{hours}"
+        #     if key not in nurse_table:
+        #         nurse_table[key] = []
+        #     nurse_table[key].append(nurse)
 
-        # 把护士名字添加到对应的星期和时间段中
-        if key not in nurse_table:
-            nurse_table[key] = []
-
-        nurse_table[key].append(nurse)
-
+    #print(nurse_table)
     return render_template('treatstation_duty.html', data=nurse_table)
