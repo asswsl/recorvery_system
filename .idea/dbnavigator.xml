@@ -48,7 +48,7 @@
  Target Server Version : 80200
  File Encoding         : 65001
 
- Date: 05/04/2024 17:24:36
+ Date: 14/05/2024 17:43:03
 */
 
 SET NAMES utf8mb4;
@@ -65,7 +65,7 @@ CREATE TABLE `device_info`  (
   `device_own` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '设备归属部门',
   `start_time` date NULL DEFAULT NULL COMMENT '设备购入时间',
   `end_time` date NULL DEFAULT NULL COMMENT '设备报废时间'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of device_info
@@ -88,7 +88,7 @@ CREATE TABLE `doctor_info`  (
   `department` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '科室',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '职称',
   PRIMARY KEY (`doctor_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of doctor_info
@@ -112,13 +112,11 @@ CREATE TABLE `patient_info`  (
   `diagnosis_time` date NULL DEFAULT NULL COMMENT '诊断时间',
   `end_time` date NULL DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`patient_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '患者信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '患者信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of patient_info
 -- ----------------------------
-
-
 INSERT INTO `patient_info` VALUES (1, '111', '女', 1, NULL, '2024-03-08', '2024-03-08', NULL);
 INSERT INTO `patient_info` VALUES (2, 'as1', '男', 21, 2, '2024-02-10', '2024-02-11', '2024-03-02');
 INSERT INTO `patient_info` VALUES (3, 'cvbc', '女', 22, NULL, '2024-03-08', '2024-03-08', NULL);
@@ -134,7 +132,7 @@ CREATE TABLE `prescription_info`  (
   `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '性别',
   `age` int NULL DEFAULT NULL COMMENT '年龄',
   `medicine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '药物'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of prescription_info
@@ -157,7 +155,7 @@ CREATE TABLE `treat_info`  (
   `total_numbers` int NULL DEFAULT NULL COMMENT '总治疗次数',
   `used_numbers` int NULL DEFAULT NULL COMMENT '已治疗次数',
   PRIMARY KEY (`patient_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of treat_info
@@ -178,13 +176,34 @@ CREATE TABLE `treatment_info`  (
   `treat_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '治疗类型',
   `treat_numbers` int NULL DEFAULT NULL COMMENT '治疗次数',
   PRIMARY KEY (`treat_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of treatment_info
 -- ----------------------------
 INSERT INTO `treatment_info` VALUES (1, '3', '33', 33);
 INSERT INTO `treatment_info` VALUES (2, '2', '2', 2);
+
+-- ----------------------------
+-- Table structure for treatstation
+-- ----------------------------
+DROP TABLE IF EXISTS `treatstation`;
+CREATE TABLE `treatstation`  (
+  `record_id` int NOT NULL AUTO_INCREMENT,
+  `nurse_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `duty_time` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `patient` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `doctor_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `patient_nurse` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `patient_doctor` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `treatment_plan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  PRIMARY KEY (`record_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of treatstation
+-- ----------------------------
+
 
 -- ----------------------------
 -- Table structure for user
@@ -197,70 +216,44 @@ CREATE TABLE `user`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `rol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `depart` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'jon', '123@qq.com', '12345', '医生站', '中医科');
 INSERT INTO `user` VALUES (2, 'asswsl', 'wys124126@163.com', '12345', '护士站', '内科');
+
+select
+    t.doctor_name,
+    t.duty_time,
+    t.nurse_name,
+    t.patient,
+    t.patient_doctor,
+    t.patient_nurse,
+    t.record_id,
+    t.treatment_plan
+from
+    treatstation t;
+
 INSERT INTO `user` VALUES (3, 'admin', '12345@we.com', '12345', '医生站', '外科');
 INSERT INTO `user` VALUES (3, 'https', '12345@ww.com', '12345', '护士站', '内科');
 INSERT INTO `user` VALUES (0, '10086', '1233@qq.com', '12345', '管理员', '中医科');
 INSERT INTO `user` VALUES (0, 'hjk', '678@qq.com', '12345', '护士站', '中医科');
 INSERT INTO `user` VALUES (0, 'cvb', '456@qq.com', '12345', '护士站', '骨科');
 INSERT INTO `user` VALUES (0, '345', '345@qq.com', '12345', '护士站', '中医科');
-INSERT INTO `user` VALUES (0, '222', '111@qq.com', '12345', '管理员', '中医科');
+INSERT INTO `user` VALUES (0, '222', '111@qq.com', '12345', '治疗站', '中医科');
 INSERT INTO `user` VALUES (0, '777', '777@qq.com', '12345', '护士站', '中医科');
+INSERT INTO `user` VALUES (0, 'breadog', 'breadog@qq.com', '12345', '治疗站', '中医科');
 
-SET FOREIGN_KEY_CHECKS = 1;
-
-
--- ----------------------------
--- Table structure for treatstation
--- ----------------------------
-DROP TABLE IF EXISTS `treatstation`;
-CREATE TABLE `treatstation` (
-  `record_id` INT AUTO_INCREMENT,
-  `nurse_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL,
-  `duty_time` VARCHAR(100) NULL,
-  `patient` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL,
-  `doctor_name` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `patient_nurse` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL, #病人对应护士
-  `patient_doctor` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL, #病人对应医生
-  `treatment_plan` TEXT,
-  PRIMARY KEY (`record_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- 插入护士数据到新表
-INSERT INTO `treatstation` (nurse_name) SELECT `name` FROM `user` WHERE rol = '护士站'; 
-
--- 插入医生数据到新表
-INSERT INTO `treatstation` (doctor_name)
-SELECT name
-FROM `user`
-WHERE rol = '医生站';
-
--- 插入病人数据到新表
-INSERT INTO `treatstation` (patient)
-SELECT patient_name
-FROM `patient_info`
-
-SELECT name FROM user WHERE rol = '护士站';
-
-select
-    t.*
-from
-    treatstation t;]]></console>
+SET FOREIGN_KEY_CHECKS = 1;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="1238e2a6-fefa-4399-869c-5bcc6e9a956d" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="1238e2a6-fefa-4399-869c-5bcc6e9a956d">

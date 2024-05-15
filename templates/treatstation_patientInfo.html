@@ -32,17 +32,21 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">患者信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="{{ url_for('doctor.doctor_patientInfo') }}">浏览患者基本信息</a></dd>
-                        <dd><a href="{{ url_for('doctor.doctor_searchPatient') }}">查找患者信息</a></dd>
-                        <dd><a href="#">修改患者信息</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_patientInfo') }}">浏览患者基本信息</a></dd>
+<!--                        <dd><a href="{{ url_for('doctor.doctor_searchPatient') }}">查找患者信息</a></dd>-->
+
+                        <dd><a href="#">患者开方治疗</a></dd>
+
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">统计信息</a>
+                    <a href="javascript:;">治疗项目</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="{{ url_for('doctor.doctor_chart') }}">患者信息统计</a></dd>
+                        <dd><a href="{{ url_for('doctor.doctor_chart') }}">治疗评价</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_dates') }}">日期安排</a></dd>
                     </dl>
                 </li>
+
             </ul>
         </div>
     </div>
