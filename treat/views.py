@@ -82,9 +82,12 @@ def treatstation_duty():
         'hours': hours,
     }
     nurse_schedule.append(schedule)
-
+    now = datetime.datetime.now().date()
+    print(now)
     # 提取出前端选择的日期
     selected_date = request.form.get('date')
+    if selected_date == None:
+        selected_date = str(now)
     print(selected_date)
 
     #计算日期所在周
@@ -123,5 +126,6 @@ def treatstation_duty():
         #         nurse_table[key] = []
         #     nurse_table[key].append(nurse)
 
-    #print(nurse_table)
+    print(nurse_table)
+
     return render_template('treatstation_duty.html', data=nurse_table)
