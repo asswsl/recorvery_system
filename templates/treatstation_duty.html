@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>治疗端-护士排班表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//cdn.staticfile.org/layui/2.9.7/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">治疗端</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-sm-inline-block">
+                <a href="javascript:;">
+                    <img src="//unpkg.com/outeres@0.0.10/img/layui/icon-v2.png" class="layui-nav-img">
+                    {{ session.name }}
+                </a>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a href="{{ url_for('logout') }}">退出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">患者信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{{ url_for('treat.treatstation_patientInfo') }}">浏览患者基本信息</a></dd>
+<!--                        <dd><a href="{{ url_for('doctor.doctor_searchPatient') }}">查找患者信息</a></dd>-->
+
+                        <dd><a href="#">患者开方治疗</a></dd>
+
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">治疗项目</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{{ url_for('doctor.doctor_chart') }}">治疗评价</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_dates') }}">日期安排</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_duty') }}">护士值班表</a></dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+
+            <blockquote class="layui-elem-quote layui-text">
+
+                  <div style="display: flex; justify-content: center;">
+                      <form action="/show_schedule" method="POST">
+                          <label for="date">选择日期:</label><br>
+                          <input type="date" id="date" name="date"><br>
+                          <input type="submit" value="查看排班信息"><br>
+                      </form>
+                  </div>
+
+                  <table class="layui-table" id="ID-table-demo-init">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'Null', width:80, sort: true}"></th>
+                        <th lay-data="{field:'Mon', width:80, sort: true}">星期一</th>
+                        <th lay-data="{field:'Tu', width:80}">星期二</th>
+                        <th lay-data="{field:'We', width:80, sort: true}">星期三</th>
+                        <th lay-data="{field:'Th'}">星期四</th>
+                        <th lay-data="{field:'Fr'}">星期五</th>
+                        <th lay-data="{field:'Sa'}">星期六</th>
+                        <th lay-data="{field:'Su'}">星期日</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+<!--                    {% for item in data %}-->
+                        <tr>
+                            <th lay-data="{field:'Th'}">零点至六点</th>
+                            <th lay-data="{field:'Mon', width:80, sort: true}">{{ data.get('Monday-0-6', '') }}</th>
+                            <th lay-data="{field:'Tu', width:80}">{{ data.get('Tuesday-0-6', '') }}</th>
+                            <th lay-data="{field:'We', width:80, sort: true}">{{ data.get('Wednesday-0-6', '') }}</th>
+                            <th lay-data="{field:'Th'}">{{ data.get('Thursday-0-6', '') }}</th>
+                            <th lay-data="{field:'Fr'}">{{ data.get('Friday-0-6', '') }}</th>
+                            <th lay-data="{field:'Sa'}">{{ data.get('Saturday-0-6', '') }}</th>
+                            <th lay-data="{field:'Su'}">{{ data.get('Sunday-0-6', '') }}</th>
+                        </tr>
+<!--                    {% endfor %}-->
+
+                         <tr>
+                            <th lay-data="{field:'Th'}">六点至十二点</th>
+                            <th lay-data="{field:'Mon', width:80, sort: true}">{{ data.get('Monday-6-12', '') }}</th>
+                            <th lay-data="{field:'Tu', width:80}">{{ data.get('Tuesday-6-12', '') }}</th>
+                            <th lay-data="{field:'We', width:80, sort: true}">{{ data.get('Wednesday-6-12', '') }}</th>
+                            <th lay-data="{field:'Th'}">{{ data.get('Thursday-6-12', '') }}</th>
+                            <th lay-data="{field:'Fr'}">{{ data.get('Friday-6-12', '') }}</th>
+                            <th lay-data="{field:'Sa'}">{{ data.get('Saturday-6-12', '') }}</th>
+                            <th lay-data="{field:'Su'}">{{ data.get('Sunday-6-12', '') }}</th>
+
+                        </tr>
+
+                        <tr>
+                            <th lay-data="{field:'Th'}">十二点至十八点</th>
+                            <th lay-data="{field:'Mon', width:80, sort: true}">{{ data.get('Monday-12-18', '') }}</th>
+                            <th lay-data="{field:'Tu', width:80}">{{ data.get('Tuesday-12-18', '') }}</th>
+                            <th lay-data="{field:'We', width:80, sort: true}">{{ data.get('Wednesday-12-18', '') }}</th>
+                            <th lay-data="{field:'Th'}">{{ data.get('Thursday-12-18', '') }}</th>
+                            <th lay-data="{field:'Fr'}">{{ data.get('Friday-12-18', '') }}</th>
+                            <th lay-data="{field:'Sa'}">{{ data.get('Saturday-12-18', '') }}</th>
+                            <th lay-data="{field:'Su'}">{{ data.get('Sunday-12-18', '') }}</th>
+
+                        </tr>
+                         <tr>
+                            <th lay-data="{field:'Th'}">十八点至零点</th>
+                            <th lay-data="{field:'Mon', width:80, sort: true}">{{ data.get('Monday-18-0', '') }}</th>
+                            <th lay-data="{field:'Tu', width:80}">{{ data.get('Tuesday-18-0', '') }}</th>
+                            <th lay-data="{field:'We', width:80, sort: true}">{{ data.get('Wednesday-18-0', '') }}</th>
+                            <th lay-data="{field:'Th'}">{{ data.get('Thursday-18-0', '') }}</th>
+                            <th lay-data="{field:'Fr'}">{{ data.get('Friday-18-0', '') }}</th>
+                            <th lay-data="{field:'Sa'}">{{ data.get('Saturday-18-0', '') }}</th>
+                            <th lay-data="{field:'Su'}">{{ data.get('Sunday-18-0', '') }}</th>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </blockquote>
+
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.staticfile.org/layui/2.9.7/layui.js"></script>
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        var util = layui.util;
+        var $ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            menuLeft: function (othis) { // 左侧菜单事件
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            },
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('date').value = today;
+    });
+</script>
+</body>
+</html>
