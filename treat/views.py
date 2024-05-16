@@ -152,7 +152,7 @@ def treatstation_duty():
 @treat_blue.route('/treatstation_save', methods=['POST', 'GET'])
 def treatstation_save():
 
-    id = request.form['patient_id']
+    id = request.form.get('patient_id')
     cursor.execute('select * from treat_info where patient_id=%s', (id))
     result = cursor.fetchone()
     cursor.execute('select * from prescription_info where patient_id=%s', (id))
