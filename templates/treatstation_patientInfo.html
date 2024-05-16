@@ -42,8 +42,9 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">治疗项目</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="{{ url_for('doctor.doctor_chart') }}">治疗评价</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_save') }}">开方保存</a></dd>
                         <dd><a href="{{ url_for('treat.treatstation_dates') }}">日期安排</a></dd>
+                        <dd><a href="{{ url_for('treat.treatstation_duty') }}">护士值班表</a></dd>
                     </dl>
                 </li>
 
@@ -74,7 +75,7 @@
                             <th lay-data="{field:'sex', width:80, sort: true}">{{ item[2] }}</th>
                             <th lay-data="{field:'city'}">{{ item[3] }}</th>
                             <th lay-data="{fixed: 'right', width: 160, align: 'center', toolbar: '#templet-demo-theads-tool'}">
-                                <form action="{{ url_for('doctor.doctor_detailsInfo') }}" method="post">
+                                <form action="{{ url_for('treat.treatstation_save') }}" method="post">
                                     <button class="layui-btn layui-bg-blue" name="patient_id" value="{{ item[0] }}">详情</button>
                                 </form>
                             </th>

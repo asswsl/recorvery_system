@@ -45,6 +45,7 @@ def doctor_searchPatient():
 # 患者详细信息界面
 @doctor_blue.route('/doctor_detailsInfo', methods=['POST', 'GET'])
 def doctor_detailsInfo():
+
     id = request.form['patient_id']
     cursor.execute('select * from treat_info where patient_id=%s', (id))
     result = cursor.fetchone()
